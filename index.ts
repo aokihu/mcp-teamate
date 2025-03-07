@@ -11,8 +11,9 @@
 import { startSSEServer } from "mcp-proxy";
 import server from "./mcp";
 
-const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-const ENDPOINT = process.env.ENDPOINT || "/sse";
+// 定义全局变量
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3001; // 默认端口3000
+const ENDPOINT = process.env.ENDPOINT || "/sse"; // 默认端点/sse
 
 const { close } = await startSSEServer({
   port: PORT,
