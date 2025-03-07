@@ -8,31 +8,14 @@
  *
  */
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { startSSEServer } from "mcp-proxy";
-import { z } from "zod";
+import server from "./mcp";
 
-const server = new McpServer({
-  name: "mcp",
-  description: "MCP-TEAMATE AI 合作伙伴MCP",
-  version: "1.0.0",
-});
-
-server.tool("Echo", "This is simple echo tool", { message: z.string() }, async ({ message }) => {
-  return {
-    content: [
-      {
-        type: "text",
-        text: message,
-      },
-    ],
-  };
-});
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const ENDPOINT = process.env.ENDPOINT || "/sse";
 
 const { close } = await startSSEServer({
-  port: 8080,
-  endpoint: "/sse",
-  createServer: async () => {
-    return server;
-  },
+  port: PORT,
+  endpoint: ENDPOINT,
+  createServer: async () => server,
 });
