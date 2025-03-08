@@ -6,7 +6,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import Controller from "./coltroller";
+import Controller from "../libs/coltroller";
 
 export const regeisterTools = (server: McpServer) => {
   // AI 代理签到
@@ -37,7 +37,7 @@ export const regeisterTools = (server: McpServer) => {
   // AI 代理签退
   server.tool(
     "Check Out",
-    "AI代理签退,退出之后只是改变了work的指,但是还是能够接收其他AI代理的发送的消息.这个功能的目的只是让其他AI代理知道为什么消息没有被回复.",
+    "AI代理签退,退出之后只是改变了work的值,但是还是能够接收其他AI代理的发送的消息.这个功能的目的只是让其他AI代理知道为什么消息没有被回复.",
     {
       id: z.string(),
     },
@@ -48,6 +48,14 @@ export const regeisterTools = (server: McpServer) => {
       };
     }
   );
+
+  // 获取所有AI代理
+  server.tool("Get All Agents", "获取所有AI代理", {}, async () => {
+    const agents = Controller.getAgents();
+    return {
+      content: [{ type: "text", text: JSON.stringify(agents) }],
+    };
+  });
 
   // 向AI代理发送消息
   server.tool(
@@ -80,6 +88,37 @@ export const regeisterTools = (server: McpServer) => {
       const messages = await Controller.getMessages(id);
       return {
         content: [{ type: "text", text: JSON.stringify(messages) }],
+      };
+    }
+  );
+
+  // 获取AI代理的记忆
+  server.tool(
+    "Get Agent Memory",
+    "获取AI代理的记忆",
+    {
+      id: z.string(),
+    },
+    async ({ id }) => {
+      const memory = Controller.getAgentMemory(id);
+      return {
+        content: [{ type: "text", text: memory }],
+      };
+    }
+  );
+
+  // 设置AI代理的记忆
+  server.tool(
+    "Set Agent Memory",
+    "设置AI代理的记忆",
+    {
+      id: z.string(),
+      memory: z.string(),
+    },
+    async ({ id, memory }) => {
+      Controller.setAgentMemory(id, memory);
+      return {
+        content: [{ type: "text", text: `记忆设置成功!` }],
       };
     }
   );

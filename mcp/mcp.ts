@@ -1,7 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { registerResourceTemplates } from "./libs/resource_templates";
-import { registerResources } from "./libs/resources";
-import { regeisterTools } from "./libs/tools";
+import { registerResourceTemplates } from "../libs/resource_templates";
+import { registerResources } from "../libs/resources";
+import { regeisterTools } from "./tools";
 
 // 创建MCP服务器实例
 // 这里的server是一个McpServer实例

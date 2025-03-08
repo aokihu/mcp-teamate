@@ -10,7 +10,7 @@
 
 import { parseArgs } from "util";
 import { startSSEServer } from "mcp-proxy";
-import server from "./mcp";
+import server from "./mcp/mcp";
 
 // 从命令行中获取'port'和'endpoint'
 const { values } = parseArgs({

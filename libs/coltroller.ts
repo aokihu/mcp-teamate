@@ -32,6 +32,7 @@ export default class Controller {
         role,
         description,
         work: 1,
+        memory: "已经签到成功",
         last_active_at: new Date().getTime(),
       });
     }
@@ -46,21 +47,58 @@ export default class Controller {
 
     if (agent) {
       agent.work = 0;
+      agent.memory = "已经签退成功";
     }
   };
 
   /**
    * 获取代理
    * @param id 代理ID
-   * @returns 代理
+   * @returns 代理, 不包含代理的记忆
    */
-  static getAgent: (id: string) => AIAgent | undefined = (id) => Agents.get(id);
+  static getAgent: (id: string) => Omit<AIAgent, "memory"> | undefined = (id) =>
+    Agents.get(id)
+      ? {
+          id: Agents.get(id)!.id,
+          role: Agents.get(id)!.role,
+          description: Agents.get(id)!.description,
+          work: Agents.get(id)!.work,
+          last_active_at: Agents.get(id)!.last_active_at,
+        }
+      : undefined;
 
   /**
    * 获取所有代理
-   * @returns 所有代理
+   * @returns 所有代理, 不包含代理的记忆
    */
-  static getAgents: () => AIAgent[] = () => [...Agents.values()];
+  static getAgents: () => Omit<AIAgent, "memory">[] = () =>
+    [...Agents.values()].map((x) => ({
+      id: x.id,
+      role: x.role,
+      description: x.description,
+      work: x.work,
+      last_active_at: x.last_active_at,
+    }));
+
+  /**
+   * 获取代理的记忆
+   * @param id 代理ID
+   * @returns 代理的记忆
+   */
+  static getAgentMemory: (id: string) => string = (id) => Agents.get(id)?.memory || "没有记忆内容";
+
+  /**
+   * 设置代理的记忆
+   * @param id 代理ID
+   * @param memory 记忆
+   */
+  static setAgentMemory: (id: string, memory: string) => void = (id, memory) => {
+    const agent = Agents.get(id);
+
+    if (agent) {
+      agent.memory = memory;
+    }
+  };
 
   /**
    * 获取AI代理的消息

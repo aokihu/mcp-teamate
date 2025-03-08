@@ -17,8 +17,26 @@ export const registerResources = (server: McpServer) => {
       resources: [
         {
           uri: "team://agents",
-          name: "AI代理所有用户的资料,不包括描述信息",
+          name: "AI代理所有用户的资料",
           description: "返回的数据格式:{id:string,role:string,description:string,work:number,last_active_at:number}",
+          mimeType: "application/json",
+        },
+        {
+          uri: "team://agent/{id}",
+          name: "单个AI代理的资料",
+          description: "返回单个AI代理的详细信息",
+          mimeType: "application/json",
+        },
+        {
+          uri: "team://messages/{id}",
+          name: "AI代理的所有消息",
+          description: "返回指定AI代理的所有消息列表",
+          mimeType: "application/json",
+        },
+        {
+          uri: "team://message/{id}",
+          name: "单个消息详情",
+          description: "返回单个消息的详细信息",
           mimeType: "application/json",
         },
       ],
