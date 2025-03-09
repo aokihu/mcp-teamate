@@ -16,3 +16,15 @@ interface Message {
   read: boolean;
   timestamp: number;
 }
+
+type HttpResult =
+  | {
+      code: "success";
+      data: any;
+    }
+  | {
+      code: "error";
+      message: string;
+    };
+
+interface;

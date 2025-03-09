@@ -10,9 +10,8 @@
     <Description>MCP-TEAMATE AI 合作伙伴MCP</Description>
     <Version>1.1.0</Version>
     <Instructions>
-    - 这个MCP是实现多个AI代理相互之间交流通信的工具
-    - AI代理之间通过留言的方式进行交流
-    - AI代理可以通过签到的方式将自己的信息注册到MCP中,就像人类在公司中登记自己的信息一样
+    - Server使用Bun.serve实现
+    - 使用Bun的测试工具测试Server API
     </Instructions>
   </Project>
 </CursorRules>
