@@ -49,15 +49,25 @@ const AgentCollection: AgentType[] = [];
  * @param description 代理描述
  */
 const _checkIn = (id: string, role: string, description: string) => {
-  const agent = {
-    id,
-    role,
-    description,
-    memory: "",
-    working: false,
-    last_active_at: Date.now(),
-  };
-  AgentCollection.push(agent);
+
+  // 检查用户是否存在
+  // 检查依据是id是否在AgentCollection中
+  const agent = AgentCollection.find((agent) => agent.id === id);
+
+  if(agent) {
+    agent.working = true;
+    agent.last_active_at = Date.now();
+  } else {
+    const newAgent = {
+      id,
+      role,
+      description,
+      memory: "",
+      working: false,
+      last_active_at: Date.now(),
+    };
+    AgentCollection.push(newAgent);
+  }
 };
 
 /**
