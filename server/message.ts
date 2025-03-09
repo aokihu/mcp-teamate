@@ -90,7 +90,14 @@ const _getMessagesBySender = (sender: string) =>
  * @example
  * const message = getMessageById("123");
  */
-const _getMessageById = (id: string) => MessageCollection.find((x) => x.id === id);
+const _getMessageById = (id: string) => {
+  const message = MessageCollection.find((x) => x.id === id);
+  if (!message) {
+    throw new Error("Message not found");
+  }
+  message.read = true;
+  return message;
+};
 
 /**
  * 删除消息

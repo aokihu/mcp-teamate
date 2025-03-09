@@ -87,11 +87,11 @@ const server = Bun.serve({
       // 获取所有消息, 通过接收者
       GET: async (req) => {
         const url = new URL(req.url);
-        const uid = url.searchParams.get("uid");
-        if (!uid) {
-          return new Response("Missing uid parameter", { status: 400 });
+        const receiver = url.searchParams.get("receiver");
+        if (!receiver) {
+          return new Response("Missing receiver parameter", { status: 400 });
         }
-        const messages = messageManager.getMessagesByReceiver(uid);
+        const messages = messageManager.getMessagesByReceiver(receiver);
         return Response.json(success(messages));
       },
       // 发送消息
