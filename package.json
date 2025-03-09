@@ -1,8 +1,11 @@
 {
   "name": "mcp-teamate",
+  "bin": {
+    "teamate-server": "bin/index.ts"
+  },
   "module": "index.ts",
   "type": "module",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "scripts": {
     "dev": "bun run src/index.ts",
     "compile": "bun build --minify --entrypoints src/index.ts --target=bun --outfile dist/teamate --compile"

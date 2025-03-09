@@ -38,8 +38,3 @@ const transport = new StdioServerTransport();
 await mcpServer.connect(transport);
 
 console.log(`Teamate MCP v${version} 启动成功`);
-
-// 测试与HTTP服务的连接
-const response = await fetch(`${API_URL}/ping`);
-response.ok ? console.log("HTTP服务连接成功") : console.error("HTTP服务连接失败");
-
