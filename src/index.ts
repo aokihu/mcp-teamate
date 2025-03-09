@@ -1,7 +1,7 @@
 /**
  *
  * MCP-TEAMATE AI 合作伙伴MCP
- * @version 1.1.0
+ * @version 2.0.1
  * @description This module provides AI partnership functionalities.
  * @author aokihu <aokihu@gmail.com>
  * @license MIT
@@ -10,9 +10,9 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { z } from "zod";
 import { registerMCPTools } from "./mcp/tools/index.js";
 import { registerMCPResources } from "./mcp/resources/index.js";
+import { version } from "../package.json" with { type: "json" };
 
 const SERVER_HOST = process.env.TEAMATE_SERVER_HOST || "localhost";
 const SERVER_PORT = process.env.TEAMATE_SERVER_PORT || 3001;
@@ -37,4 +37,9 @@ registerMCPResources(mcpServer, API_URL);
 const transport = new StdioServerTransport();
 await mcpServer.connect(transport);
 
-console.log("MCP服务器启动成功");
+console.log(`Teamate MCP v${version} 启动成功`);
+
+// 测试与HTTP服务的连接
+const response = await fetch(`${API_URL}/ping`);
+response.ok ? console.log("HTTP服务连接成功") : console.error("HTTP服务连接失败");
+

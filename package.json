@@ -2,9 +2,10 @@
   "name": "mcp-teamate",
   "module": "index.ts",
   "type": "module",
-  "version": "1.1.0",
+  "version": "2.0.2",
   "scripts": {
-    "dev": "bun run index.ts"
+    "dev": "bun run src/index.ts",
+    "compile": "bun build --minify --entrypoints src/index.ts --target=bun --outfile dist/teamate --compile"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -14,7 +15,6 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.1",
-    "mcp-proxy": "^2.7.0"
+    "@modelcontextprotocol/sdk": "^1.6.1"
   }
 }

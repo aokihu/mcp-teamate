@@ -2,7 +2,7 @@
  *
  * Teamate HTTP 服务器端
  * @author aokihu <aokihu@gmail.com>
- * @version 1.0.0
+ * @version 1.1.0
  * @description 使用标准HTTP协议, 提供API接口, 用于与Teamate进行交互
  *              然后AI代理通过STDIO与服务器进行交互
  */
@@ -36,6 +36,10 @@ const server = Bun.serve({
   hostname: args.values.host,
   port: parseInt(args.values.port),
   routes: {
+    // 心跳检测
+    "/ping": async (req) => {
+      return Response.json(success("pong"));
+    },
     // 代理签到
     "/agent/checkIn": async (req) => {
       const body = await req.json();
