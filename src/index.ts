@@ -36,5 +36,3 @@ registerMCPResources(mcpServer, API_URL);
 // 启动MCP服务器
 const transport = new StdioServerTransport();
 await mcpServer.connect(transport);
-
-console.log(`Teamate MCP v${version} 启动成功`);
