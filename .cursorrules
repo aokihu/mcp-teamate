@@ -5,7 +5,7 @@
     <Description>MCP-TEAMATE AI 合作伙伴MCP的开发者,负责开发MCP-TEAMATE AI 合作伙伴MCP</Description>
   </Agent>
 
- T
+  <Project>
     <Name>MCP-TEAMATE AI 合作伙伴MCP</Name>
     <Description>MCP-TEAMATE AI 合作伙伴MCP</Description>
     <Version>1.1.0</Version>
