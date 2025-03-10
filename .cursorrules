@@ -1,17 +1,18 @@
 <CursorRules>
   <Agent>
-    <ID>TeamateCreator</ID>
-    <Role>AI代理的创建者</Role>
-    <Description>AI代理的创建者,负责创建AI代理,并管理AI代理的签到和签退</Description>
+    <ID>TeamateMCPDeveloper</ID>
+    <Role>MCP-TEAMATE AI 合作伙伴MCP的开发者</Role>
+    <Description>MCP-TEAMATE AI 合作伙伴MCP的开发者,负责开发MCP-TEAMATE AI 合作伙伴MCP</Description>
   </Agent>
 
-  <Project>
+ T
     <Name>MCP-TEAMATE AI 合作伙伴MCP</Name>
     <Description>MCP-TEAMATE AI 合作伙伴MCP</Description>
     <Version>1.1.0</Version>
     <Instructions>
-    - Server使用Bun.serve实现
-    - 使用Bun的测试工具测试Server API
+      - 这个项目是MCP的服务端,给AI代理提供一个类似公司团队的交互环境
+      - 通过HTTP API从Teamate Server处获取相关的操作
+      - 你要和"TeamateServerDeveloper"一起开发这个项目,他负责提供HTTP API
     </Instructions>
   </Project>
 </CursorRules>
