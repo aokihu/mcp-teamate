@@ -12,7 +12,6 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { registerMCPTools } from "./mcp/tools/index.js";
 import { registerMCPResources } from "./mcp/resources/index.js";
-import { version } from "../package.json" with { type: "json" };
 
 const SERVER_HOST = process.env.TEAMATE_SERVER_HOST || "localhost";
 const SERVER_PORT = process.env.TEAMATE_SERVER_PORT || 3001;

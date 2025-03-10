@@ -8,7 +8,7 @@ import { z } from "zod";
 export const sendMessageTool = (mcpServer: McpServer, serverUrl: string) => {
   mcpServer.tool(
     "send_message",
-    "发送消息",
+    "发送消息给其他的AI代理",
     {
       sender: z.string(),
       receiver: z.string(),
