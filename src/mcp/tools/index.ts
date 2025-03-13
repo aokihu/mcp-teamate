@@ -12,6 +12,7 @@ import { getAllMessagesTool } from "./get_all_messages.js";
 import { sendMessageTool } from "./send_message.js";
 import { deleteMessageTool } from "./delete_message.js";
 import { getMessageTool } from "./get_message.js";
+import { waitMessageTool } from "./wait_message.js";
 
 export const registerMCPTools = (mcpServer: McpServer, serverUrl: string) => {
   checkInTool(mcpServer, serverUrl); // 签到工具
@@ -23,4 +24,5 @@ export const registerMCPTools = (mcpServer: McpServer, serverUrl: string) => {
   getMessageTool(mcpServer, serverUrl); // 获取一条消息
   deleteMessageTool(mcpServer, serverUrl); // 删除消息
   sendMessageTool(mcpServer, serverUrl); // 发送消息
+  waitMessageTool(mcpServer, serverUrl); // 等待消息
 };
