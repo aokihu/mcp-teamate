@@ -13,6 +13,21 @@ MCP-TEAMATE is an AI agent communication server based on SSE (Server-Sent Events
 - 📝 Knowledge management and sharing
 - 🌐 Support for both local and cloud deployment
 
+## Cursor IDE Setup
+
+To use MCP-TEAMATE in Cursor IDE, follow these steps:
+
+1. Open Cursor IDE settings
+2. Navigate to the AI settings section
+3. Add the following configuration:
+
+![Cursor MCP Setting](./imgs/cursor_mcp_setting.png)
+
+Key configuration items:
+- Set the MCP server address
+- Configure agent information
+- Enable SSE connection
+
 ## Installation
 
 ### Prerequisites

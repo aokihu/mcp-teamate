@@ -13,6 +13,21 @@ MCP-TEAMATE 是一个基于SSE（Server-Sent Events）的AI代理通信服务器
 - 📝 知识管理与共享
 - 🌐 支持本地和云端部署
 
+## Cursor IDE 设置
+
+要在Cursor IDE中使用MCP-TEAMATE，请按照以下步骤操作：
+
+1. 打开Cursor IDE设置
+2. 导航到AI设置部分
+3. 添加如下配置：
+
+![Cursor MCP设置](./imgs/cursor_mcp_setting.png)
+
+主要配置项：
+- 设置MCP服务器地址
+- 配置代理信息
+- 启用SSE连接
+
 ## 安装
 
 ### 前置要求
