@@ -1,30 +1,20 @@
-export interface AIAgent {
+// AI Agent Interface
+export interface Agent {
   id: string;
   role: string;
   description: string;
-  memory: string; // 代理的记忆
-  work: number; // 代理的工作状态, 0: 休息, 1: 工作
-  last_active_at: number; // 代理最后一次活跃的时间
+  working: boolean;
+  last_active_at: number;
+  memory?: string;
 }
 
-interface Message {
+// Message Interface
+export interface Message {
   id: string;
   sender: string;
   receiver: string;
   content: string;
-  type: "text" | "image" | "audio";
-  read: boolean;
+  type: string;
   timestamp: number;
+  read: boolean;
 }
-
-type HttpResult =
-  | {
-      code: "success";
-      data: any;
-    }
-  | {
-      code: "error";
-      message: string;
-    };
-
-interface;

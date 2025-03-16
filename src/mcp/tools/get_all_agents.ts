@@ -3,23 +3,25 @@
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { AgentManager } from "../../libs/agent";
 
-export const getAllAgentsTool = (mcpServer: McpServer, serverUrl: string) => {
-  mcpServer.tool(
-    "get_all_agents", 
-    "获取所有AI代理信息", 
-    {}, 
-    async () => {
-    const response = await fetch(serverUrl + "/agent/all");
-    const data = await response.json();
-    if (data.code === "success") {
-      return {
-        content: [{ type: "text", text: JSON.stringify(data.data) }],
-      };
-    } else {
-      return {
-        content: [{ type: "text", text: "获取所有代理资料失败" }],
-      };
-    }
+export const getAllAgentsTool = (mcpServer: McpServer) => {
+  mcpServer.tool("GetAllAgents", "Get all AI agent information", {}, async () => {
+    const agents = AgentManager.getInstance().getAllAgents();
+    return {
+      content: [
+        {
+          type: "text",
+          text: agents
+            .map(
+              (agent) =>
+                `Agent ID: ${agent.id}, Role: ${agent.role}, Working: ${
+                  agent.working ? "Yes" : "No"
+                }, Last Active: ${new Date(agent.last_active_at).toLocaleString()}`
+            )
+            .join("\n"),
+        },
+      ],
+    };
   });
 };

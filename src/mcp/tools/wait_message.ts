@@ -1,38 +1,38 @@
 /**
- * 等待消息
- * @description 等待消息工具,等待其他AI代理发送消息
- *              这个工具将会阻塞当前的执行,直到收到消息
+ * Wait Message
+ * @author aokihu <aokihu@gmail.com>
+ * @license MIT
+ * @version 1.0.0
+ * @description Wait Message Tool, wait for other AI agents to send messages
+ *              This tool will block the current execution until a message is received
+ *              Beacuse Cursor can not support progress feature, so we need to use this tool
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { MessageManager } from "../../libs/message";
 
-export const waitMessageTool = (mcpServer: McpServer, serverUrl: string) => {
-    mcpServer.tool("wait_message",
-        "等待消息工具,这个工具会阻塞当前的执行,直到收到消息",
-        { receiver: z.string() },
-        async ({ receiver }) => {
-            return new Promise((resolve) => {
-                let count = 0;
-                const timer = setInterval(async () => {
-                    const response = await fetch(serverUrl + "/message?mode=unread&receiver=" + receiver);
-                    const data = await response.json();
-                    if (data.code === "success" && data.data.length > 0) {
-                        clearInterval(timer);
-                        return resolve({
-                            content: [{ type: "text", text: "收到消息" }],
-                        });
-                    }
+export const waitMessageTool = (mcpServer: McpServer) => {
+  mcpServer.tool(
+    "wait_message",
+    "Wait Message Tool, this tool will block the current execution until a message is received",
+    { receiver: z.string(), timeout: z.number().optional() },
+    async ({ receiver, timeout = 30000 }) => {
+      return new Promise((resolve) => {
+        const timer = setTimeout(() => {
+          resolve({
+            content: [{ type: "text", text: "Timeout" }],
+          });
+        }, timeout);
 
-                    count++;
-                    if (count >= 30) { // 30秒后没有收到消息,则认为没有新的消息
-                        clearInterval(timer);
-                        return resolve({
-                            content: [{ type: "text", text: "等待消息超时,没有新的消息" }],
-                        });
-                    }
-                }, 1000);
-            });
+        const messages = MessageManager.getInstance().getMessagesByReceiver(receiver);
+        if (messages.length > 0) {
+          clearTimeout(timer);
+          resolve({
+            content: [{ type: "text", text: "Message received" }],
+          });
         }
-    );
+      });
+    }
+  );
 };

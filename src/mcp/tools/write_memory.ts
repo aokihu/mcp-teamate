@@ -1,33 +1,27 @@
 /**
- * 写入代理记忆
+ * Write Memory
+ * @author aokihu <aokihu@gmail.com>
+ * @license MIT
+ * @version 1.0.0
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { AgentManager } from "../../libs/agent";
 
-export const writeMemoryTool = (mcpServer: McpServer, serverUrl: string) => {
+export const writeMemoryTool = (mcpServer: McpServer) => {
   mcpServer.tool(
     "write_memory",
-    "写入代理记忆",
+    "Write Memory",
     {
       id: z.string(),
       memory: z.string(),
     },
     async ({ id, memory }) => {
-      const response = await fetch(serverUrl + "/agent/memory", {
-        method: "POST",
-        body: JSON.stringify({ id, memory }),
-      });
-      const data = await response.json();
-      if (data.code === "success") {
-        return {
-          content: [{ type: "text", text: "写入代理记忆成功" }],
-        };
-      } else {
-        return {
-          content: [{ type: "text", text: "写入代理记忆失败" }],
-        };
-      }
+      AgentManager.getInstance().writeMemory(id, memory);
+      return {
+        content: [{ type: "text", text: "Memory written" }],
+      };
     }
   );
 };

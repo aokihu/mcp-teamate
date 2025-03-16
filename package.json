@@ -5,21 +5,27 @@
   },
   "module": "index.ts",
   "type": "module",
-  "version": "2.1.1",
+  "version": "3.1.1",
   "scripts": {
-    "dev": "bun run src/index.ts",
-    "compile": "bun build --minify --entrypoints src/index.ts --target=bun --outfile dist/teamate --compile"
+    "dev": "bun run --watch src/index.ts",
+    "build": "bun run scripts/build.ts",
+    "compile": "bun build ./src/index.ts --compile"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "zod": "^3.24.2"
+    "@types/express": "^5.0.0",
+    "zod": "^3.24.2",
+    "bun-types": "latest"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.8.2"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.6.1",
+    "@modelcontextprotocol/sdk": "^1.7.0",
+    "@types/node": "^20.11.24",
     "@types/uuid": "^10.0.0",
+    "compressing": "^1.10.0",
+    "express": "^4.21.2",
     "uuid": "^11.1.0"
   }
 }

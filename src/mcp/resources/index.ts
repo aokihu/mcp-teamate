@@ -6,7 +6,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { ListResourcesRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 
-export const registerMCPResources = (mcpServer: McpServer, serverUrl: string) => {
+export const registerMCPResources = (mcpServer: McpServer) => {
   mcpServer.server.setRequestHandler(ListResourcesRequestSchema, async () => {
     return {
       resources: [
