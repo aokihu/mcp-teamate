@@ -20,11 +20,8 @@ export class AgentManager {
     return this.instance;
   }
 
-  /**
-   * Initialize Memory Database
-   */
-  static initDatabase() {
-    initDatabase();
+  constructor() {
+    initDatabase(); // Initialize Memory Database
   }
 
   /**
