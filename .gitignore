@@ -131,3 +131,5 @@ dist
 
 # Compiled output
 teamate
+data/
+dist/
