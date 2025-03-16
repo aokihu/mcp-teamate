@@ -1,7 +1,7 @@
 /**
  *
  * MCP-TEAMATE AI 合作伙伴MCP
- * @version 3.1.0
+ * @version 3.1.1
  * @description This module provides AI partnership functionalities.
  * @author aokihu <aokihu@gmail.com>
  * @license MIT
@@ -120,4 +120,13 @@ app.post("/messages", async (req, res) => {
 app.listen(SERVER_PORT, () => {
   console.log(`MCP-TEAMATE v${TEAMATE_VERSION}`);
   console.log(`Server is running on http://${SERVER_HOST}:${SERVER_PORT}`);
+  console.log(`You can add this setting to your MCP server:
+  
+{
+  "mcpServers": {
+    "Teamate": {
+      "url": "http://${SERVER_HOST}:${SERVER_PORT}/sse"
+    }
+  }
+}`);
 });
