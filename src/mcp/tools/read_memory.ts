@@ -1,29 +1,26 @@
 /**
- * 读取代理记忆
+ * Read Memory
+ * @author aokihu <aokihu@gmail.com>
+ * @license MIT
+ * @version 1.0.0
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { AgentManager } from "../../libs/agent";
 
-export const readMemoryTool = (mcpServer: McpServer, serverUrl: string) => {
+export const readMemoryTool = (mcpServer: McpServer) => {
   mcpServer.tool(
     "read_memory",
-    "读取代理记忆",
+    "Read Memory",
     {
       id: z.string(),
     },
     async ({ id }) => {
-      const response = await fetch(serverUrl + "/agent/memory?id=" + id);
-      const data = await response.json();
-      if (data.code === "success") {
-        return {
-          content: [{ type: "text", text: data.data.memory }],
-        };
-      } else {
-        return {
-          content: [{ type: "text", text: "读取代理记忆失败" }],
-        };
-      }
+      const memory = AgentManager.getInstance().getMemory(id);
+      return {
+        content: [{ type: "text", text: memory ?? "No memory" }],
+      };
     }
   );
 };

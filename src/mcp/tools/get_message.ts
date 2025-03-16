@@ -1,27 +1,39 @@
 /**
- * 获取一条消息
+ * Get a message
+ * @author aokihu <aokihu@gmail.com>
+ * @description Get a message, include the content of the message, and delete the message after reading it
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { MessageManager } from "../../libs/message";
 
-export const getMessageTool = (mcpServer: McpServer, serverUrl: string) => {
+export const getMessageTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "get_message",
-    "获取一条消息,包含消息的具体内容,阅读消息后就删除",
+    "GetMessage",
+    "Get a message, include the content of the message, and delete the message after reading it",
     {
       id: z.string(),
     },
     async ({ id }) => {
-      const response = await fetch(serverUrl + "/message/" + id);
-      const data = await response.json();
-      if (data.code === "success") {
+      const message = MessageManager.getInstance().getMessageById(id);
+      if (message) {
+        // Delete the message after reading it
+        setTimeout(() => {
+          MessageManager.getInstance().deleteMessageById(id);
+        }, 1000);
+
         return {
-          content: [{ type: "text", text: JSON.stringify(data.data) }],
+          content: [
+            {
+              type: "text",
+              text: `Sender <${message.sender}>, Receiver <${message.receiver}>\n\nContent: ${message.content}\n\nType: ${message.type}\n\nTimestamp: ${message.timestamp}`,
+            },
+          ],
         };
       } else {
         return {
-          content: [{ type: "text", text: "获取一条消息失败" }],
+          content: [{ type: "text", text: "Message not found" }],
         };
       }
     }

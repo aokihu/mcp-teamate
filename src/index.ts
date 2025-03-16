@@ -1,37 +1,123 @@
 /**
  *
  * MCP-TEAMATE AI 合作伙伴MCP
- * @version 2.0.1
+ * @version 3.1.0
  * @description This module provides AI partnership functionalities.
  * @author aokihu <aokihu@gmail.com>
  * @license MIT
  *
  */
 
+/* -------------------------------------------- */
+/*                 Imports                      */
+/* -------------------------------------------- */
+
+import pkg from "../package.json" assert { type: "json" };
+import express, { type Request, type Response } from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { registerMCPTools } from "./mcp/tools/index.js";
 import { registerMCPResources } from "./mcp/resources/index.js";
+import { AgentManager } from "./libs/agent.js";
+
+/* -------------------------------------------- */
+/*                 Environment                  */
+/* -------------------------------------------- */
 
 const SERVER_HOST = process.env.TEAMATE_SERVER_HOST || "localhost";
 const SERVER_PORT = process.env.TEAMATE_SERVER_PORT || 3001;
-const API_URL = `http://${SERVER_HOST}:${SERVER_PORT}`;
+const TEAMATE_VERSION = pkg.version;
 
-const mcpServer = new McpServer(
-  {
-    name: "mcp-teamate-ai",
-    version: "1.1.0",
-  },
-  {
-    capabilities: {
-      resources: {},
+/* -------------------------------------------- */
+/*                Setup Database                */
+/* -------------------------------------------- */
+
+AgentManager.initDatabase();
+
+/* -------------------------------------------- */
+/*              Setup MCP Server                */
+/* -------------------------------------------- */
+
+const createMCPServer = () => {
+  const mcpServer = new McpServer(
+    {
+      name: "mcp-teamate-ai",
+      version: TEAMATE_VERSION,
     },
+    {
+      capabilities: {
+        resources: {},
+      },
+    }
+  );
+
+  registerMCPTools(mcpServer);
+  registerMCPResources(mcpServer);
+
+  return mcpServer;
+};
+
+const transports: Map<string, SSEServerTransport> = new Map();
+const mcpServers: Map<SSEServerTransport, McpServer> = new Map();
+
+/* -------------------------------------------- */
+/*                 HTTP Server                  */
+/* -------------------------------------------- */
+
+const app = express();
+
+app.get("/sse", async (req: Request, res: Response) => {
+  res.header("Cache-Control", "no-cache");
+  res.header("Connection", "keep-alive");
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+  res.header("Content-Type", "text/event-stream");
+  res.flushHeaders();
+
+  const transport = new SSEServerTransport("/messages", res);
+  const mcpServer = createMCPServer();
+  mcpServers.set(transport, mcpServer);
+  transports.set(transport.sessionId, transport);
+
+  await mcpServer.connect(transport);
+  await transport.send({
+    jsonrpc: "2.0",
+    method: "sse/connection",
+    params: { message: "SSE Connection established" },
+  });
+
+  // Clear disconnect client
+  req.on("close", () => {
+    if (transport) {
+      transport.close();
+      transports.delete(transport.sessionId);
+      mcpServers.delete(transport);
+    }
+  });
+
+  return;
+});
+
+// @ts-ignore
+app.post("/messages", async (req, res) => {
+  const sessionId = req.query["sessionId"] as string;
+
+  if (!sessionId) {
+    return res.status(400).send("No sessionId");
   }
-);
 
-registerMCPTools(mcpServer, API_URL);
-registerMCPResources(mcpServer, API_URL);
+  const transport = transports.get(sessionId);
 
-// 启动MCP服务器
-const transport = new StdioServerTransport();
-await mcpServer.connect(transport);
+  if (!transport) {
+    return res.status(400).send("Transport not found");
+  }
+
+  await transport.handlePostMessage(req, res);
+});
+
+app.listen(SERVER_PORT, () => {
+  console.log(`MCP-TEAMATE v${TEAMATE_VERSION}`);
+  console.log(`Server is running on http://${SERVER_HOST}:${SERVER_PORT}`);
+});

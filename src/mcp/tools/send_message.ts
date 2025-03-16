@@ -1,32 +1,30 @@
 /**
- * 发送消息
+ * Send Message to Other Agents
+ * @author aokihu <aokihu@gmail.com>
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { MessageManager } from "../../libs/message";
 
-export const sendMessageTool = (mcpServer: McpServer, serverUrl: string) => {
+export const sendMessageTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "send_message",
-    "发送消息给其他的AI代理",
+    "SendMessage",
+    "send message to other agents, the sender and receiver must be the id of the agent, and you need delete the message after read it",
     {
       sender: z.string(),
       receiver: z.string(),
       content: z.string(),
     },
     async ({ sender, receiver, content }) => {
-      const response = await fetch(serverUrl + "/message", {
-        method: "POST",
-        body: JSON.stringify({ sender, receiver, content }),
-      });
-      const data = await response.json();
-      if (data.code === "success") {
+      const messageId = MessageManager.getInstance().sendMessage(sender, receiver, content);
+      if (messageId) {
         return {
-          content: [{ type: "text", text: "发送消息成功" }],
+          content: [{ type: "text", text: "Message sent successfully" }],
         };
       } else {
         return {
-          content: [{ type: "text", text: "发送消息失败" }],
+          content: [{ type: "text", text: "Message sent failed" }],
         };
       }
     }

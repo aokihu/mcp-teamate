@@ -1,31 +1,26 @@
 /**
- * 删除消息
+ * Delete Message
+ * @author aokihu <aokihu@gmail.com>
+ * @license MIT
+ * @version 1.0.0
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { MessageManager } from "../../libs/message";
 
 export const deleteMessageTool = (mcpServer: McpServer, serverUrl: string) => {
   mcpServer.tool(
     "delete_message",
-    "删除消息,删除后无法恢复",
+    "Delete Message, cannot be recovered",
     {
       id: z.string(),
     },
     async ({ id }) => {
-      const response = await fetch(serverUrl + "/message/" + id, {
-        method: "DELETE",
-      });
-      const data = await response.json();
-      if (data.code === "success") {
-        return {
-          content: [{ type: "text", text: "删除消息成功" }],
-        };
-      } else {
-        return {
-          content: [{ type: "text", text: "删除消息失败" }],
-        };
-      }
+      MessageManager.getInstance().deleteMessageById(id);
+      return {
+        content: [{ type: "text", text: "Message deleted" }],
+      };
     }
   );
 };
