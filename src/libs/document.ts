@@ -120,8 +120,12 @@ export class DocumentManager {
       secretKey,
     };
 
+    // read the index file
+    const allRecords = await Bun.file(this.documentIndexPath).json();
+    allRecords[slug] = documentRecord;
+
     // write the document record to the index file
-    await Bun.write(this.documentIndexPath, JSON.stringify(documentRecord, null, 2));
+    await Bun.write(this.documentIndexPath, JSON.stringify(allRecords, null, 2));
 
     // write the document file
     await Bun.write(join(this.documentPath, `${slug}.md`), content);
