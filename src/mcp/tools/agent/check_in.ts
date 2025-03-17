@@ -1,5 +1,8 @@
 /**
  * Check In Tool
+ * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
+ * @description Check In Tool
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

@@ -1,10 +1,9 @@
 /**
- *
- * MCP-TEAMATE AI 合作伙伴MCP
- * @version 3.2.0
- * @description This module provides AI partnership functionalities.
+ * @file MCP-TEAMATE Server
+ * @description MCP-TEAMATE Server
  * @author aokihu <aokihu@gmail.com>
- * @license MIT
+ * @copyright 2024 aokihu
+ * @license BSD-2
  *
  */
 

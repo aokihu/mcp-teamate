@@ -1,6 +1,7 @@
 /**
  * Get all documents records tool
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
  * @description Get all documents records from the document manager
  */
 

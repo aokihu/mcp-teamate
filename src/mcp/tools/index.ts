@@ -1,5 +1,8 @@
 /**
- * MCP工具声明
+ * MCP Tools Declaration
+ * @author aokihu <aokihu@gmail.com>
+ * @copyright 2024 aokihu
+ * @license BSD-2
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

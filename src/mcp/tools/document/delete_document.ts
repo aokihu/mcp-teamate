@@ -1,6 +1,7 @@
 /**
  * Delete a document tool
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
  * @description Delete a document from the document manager
  */
 

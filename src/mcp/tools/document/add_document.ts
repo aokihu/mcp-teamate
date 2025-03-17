@@ -1,6 +1,7 @@
 /**
  * Add new document to the document manager
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
  * @description Add new document to the document manager
  */
 

@@ -1,6 +1,7 @@
 /**
  * Update Document Tool
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
  * @description Update a document in the document manager
  */
 

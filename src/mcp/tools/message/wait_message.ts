@@ -1,7 +1,7 @@
 /**
  * Wait Message
  * @author aokihu <aokihu@gmail.com>
- * @license MIT
+ * @license BSD-2
  * @version 1.0.0
  * @description Wait Message Tool, wait for other AI agents to send messages
  *              This tool will block the current execution until a message is received

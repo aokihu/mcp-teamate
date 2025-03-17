@@ -1,5 +1,8 @@
 /**
- * 获取所有代理资料
+ * Get all agents information
+ * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
+ * @description Get all agents information
  */
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";

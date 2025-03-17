@@ -1,6 +1,7 @@
 /**
  * Get a document tool
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
  * @description Get a document from the document manager
  */
 

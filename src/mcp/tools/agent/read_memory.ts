@@ -1,7 +1,7 @@
 /**
  * Read Memory
  * @author aokihu <aokihu@gmail.com>
- * @license MIT
+ * @license BSD-2
  * @version 1.0.0
  */
 
