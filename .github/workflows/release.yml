@@ -9,6 +9,7 @@ jobs:
   build:
     name: Build and Release
     runs-on: ubuntu-latest
+    timeout-minutes: 15 # 设置任务超时时间
     permissions:
       contents: write # 需要写入权限来创建release
 
@@ -20,6 +21,16 @@ jobs:
         uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            node_modules
+            ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
       - name: Install dependencies
         run: bun install
@@ -41,4 +52,7 @@ jobs:
           gh release create $VERSION \
             --title "$VERSION" \
             --notes "$NOTES" \
+            --draft \
             ./dist/*.zip
+
+          echo "Release draft created successfully. Please review and publish it manually."
