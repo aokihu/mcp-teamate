@@ -21,10 +21,12 @@ export class AgentManager {
   }
 
   /**
-   * Initialize Memory Database
+   * Initialize
+   * @description Initialize the agent manager
+   * @returns {Promise<void>}
    */
-  static initDatabase() {
-    initDatabase();
+  static async initialize() {
+    await initDatabase();
   }
 
   /**
