@@ -133,3 +133,12 @@ dist
 teamate
 data/
 dist/
+
+# Build output
+dist/
+build/
+*.zip
+
+# Compiled binary
+teamate
+teamate.exe

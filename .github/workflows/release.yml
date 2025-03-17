@@ -1,0 +1,44 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - "v*" # 当推送版本标签时触发
+
+jobs:
+  build:
+    name: Build and Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 需要写入权限来创建release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build all platforms
+        run: bun run build
+
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # 获取版本号
+          VERSION=${GITHUB_REF#refs/tags/}
+
+          # 从RELEASE_NOTES.md中提取当前版本的发行说明
+          NOTES=$(awk "/^## ${VERSION#v}/{p=1;next} /^## /{p=0} p" RELEASE_NOTES.md)
+
+          # 创建发布
+          gh release create $VERSION \
+            --title "$VERSION" \
+            --notes "$NOTES" \
+            ./dist/*.zip
