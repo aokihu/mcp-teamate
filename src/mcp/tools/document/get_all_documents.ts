@@ -4,7 +4,6 @@
  * @description Get all documents records from the document manager
  */
 
-import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { DocumentManager } from "../../../libs/document";
 

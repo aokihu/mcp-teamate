@@ -8,9 +8,10 @@
  *              Documents will be indexed in the `data/documents/index.json` file.
  */
 
+import type { Document, DocumentRecord } from "~types/types";
 import { join } from "path";
 import { stat, mkdir, writeFile, readFile, unlink } from "node:fs/promises";
-import { z } from "zod";
+import { omits } from "./functional";
 
 export class DocumentManager {
   private static instance: DocumentManager;
@@ -52,22 +53,81 @@ export class DocumentManager {
   }
 
   /**
+   * Check Document Record
+   * @description Check if the document record exists
+   * @param slug - The slug of the document
+   * @returns {Promise<Boolean>}
+   */
+  private async checkDocumentRecord(slug: string): Promise<Boolean> {
+    const records = await Bun.file(this.documentIndexPath).json();
+    const record = records[slug];
+    return record !== undefined;
+  }
+
+  /**
+   * Check Document File
+   * @description Check if the document file exists
+   * @param slug - The slug of the document
+   * @returns {Promise<Boolean>}
+   */
+  private async checkDocumentFile(slug: string): Promise<Boolean> {
+    const file = Bun.file(join(this.documentPath, `${slug}.md`));
+    return file.exists();
+  }
+
+  /**
    * Add Document
    * @description Add a document to the document manager
    * @param slug - The slug of the document
-   * @param document - The document to add
-   * @returns {Promise<void>}
+   * @param title - The title of the document
+   * @param maintainer - The maintainer of the document
+   * @param version - The version of the document
+   * @param content - The content of the document
+   * @returns {Promise<string>} return the secret key to access the document
    */
-  public async addDocument(slug: string, document: string): Promise<void> {
-    const documentName = `${slug}.md`;
-    const documentPath = join(this.documentPath, documentName);
-    await writeFile(documentPath, document);
+  public async addDocument(
+    slug: string,
+    title: string,
+    maintainer: string,
+    version: string,
+    content: string
+  ): Promise<string> {
+    // check if the document record exists
+    const documentRecordExists = await this.checkDocumentRecord(slug);
+    if (documentRecordExists) {
+      throw new Error("Document record already exists");
+    }
 
-    // Update the index file
-    const indexFile = await readFile(this.documentIndexPath, "utf-8");
-    const index = JSON.parse(indexFile);
-    index[slug] = documentName;
-    await writeFile(this.documentIndexPath, JSON.stringify(index, null, 2));
+    // check if the document file exists
+    const documentFileExists = await this.checkDocumentFile(slug);
+    if (documentFileExists) {
+      throw new Error("Document file already exists");
+    }
+
+    // generate a secret key
+    const secretKey = await Bun.password.hash(Bun.randomUUIDv7(), {
+      algorithm: "bcrypt",
+    });
+
+    // create the document record
+    const documentRecord: DocumentRecord = {
+      slug,
+      title,
+      maintainer,
+      version,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      secretKey,
+    };
+
+    // write the document record to the index file
+    await Bun.write(this.documentIndexPath, JSON.stringify(documentRecord, null, 2));
+
+    // write the document file
+    await Bun.write(join(this.documentPath, `${slug}.md`), content);
+
+    // return the secret key
+    return secretKey;
   }
 
   /**
@@ -76,11 +136,32 @@ export class DocumentManager {
    * @param slug - The slug of the document
    * @returns {Promise<string>}
    */
-  public async getDocument(slug: string): Promise<string> {
-    const documentName = `${slug}.md`;
-    const documentPath = join(this.documentPath, documentName);
-    const document = await readFile(documentPath, "utf-8");
-    return document;
+  public async getDocument(slug: string): Promise<Document> {
+    // check if the document record exists
+    const documentRecordExists = await this.checkDocumentRecord(slug);
+    if (!documentRecordExists) {
+      throw new Error("Document record does not exist");
+    }
+
+    // check if the document file exists
+    const documentFileExists = await this.checkDocumentFile(slug);
+    if (!documentFileExists) {
+      throw new Error("Document file does not exist");
+    }
+
+    // get the document record
+    const documentRecord = await Bun.file(this.documentIndexPath).json();
+    const rawDocumentRecord = documentRecord[slug] as DocumentRecord;
+    const document = omits(rawDocumentRecord, "secretKey");
+
+    // get the document file
+    const documentFile = await Bun.file(join(this.documentPath, `${slug}.md`)).text();
+
+    // return the document file
+    return {
+      ...document,
+      content: documentFile,
+    } as Document;
   }
 
   /**
@@ -88,10 +169,9 @@ export class DocumentManager {
    * @description Get all documents from the document manager
    * @returns {Promise<string[]>}
    */
-  public async getAllDocuments(): Promise<string[]> {
-    const indexFile = await readFile(this.documentIndexPath, "utf-8");
-    const index = JSON.parse(indexFile);
-    return Object.keys(index);
+  public async getAllDocuments(): Promise<Document[]> {
+    const records = await Bun.file(this.documentIndexPath).json();
+    return Object.values(records).map((record) => omits(record, "secretKey")) as Document[];
   }
 
   /**
@@ -100,10 +180,29 @@ export class DocumentManager {
    * @param slug - The slug of the document
    * @returns {Promise<void>}
    */
-  public async deleteDocument(slug: string): Promise<void> {
+  public async deleteDocument(slug: string, secretKey: string): Promise<void> {
+    // check if the document record exists
+    const documentRecordExists = await this.checkDocumentRecord(slug);
+    if (!documentRecordExists) {
+      throw new Error("Document record does not exist");
+    }
+
+    // check if the secret key is correct
+    const documentRecord = await Bun.file(this.documentIndexPath).json();
+    const rawDocumentRecord = documentRecord[slug] as DocumentRecord;
+    if (rawDocumentRecord.secretKey !== secretKey) {
+      throw new Error("Invalid secret key");
+    }
+
+    // delete the record
+    const records = await Bun.file(this.documentIndexPath).json();
+    delete records[slug];
+    await Bun.write(this.documentIndexPath, JSON.stringify(records, null, 2));
+
+    // delete the document file
     const documentName = `${slug}.md`;
     const documentPath = join(this.documentPath, documentName);
-    await unlink(documentPath);
+    await Bun.file(documentPath).delete();
   }
 
   /**
@@ -111,11 +210,34 @@ export class DocumentManager {
    * @description Update a document from the document manager
    * @param slug - The slug of the document
    * @param document - The document to update
+   * @param version - The version of the document
+   * @param secretKey - The secret key of the document
    * @returns {Promise<void>}
    */
-  public async updateDocument(slug: string, document: string): Promise<void> {
+  public async updateDocument(slug: string, document: string, version: string, secretKey: string): Promise<void> {
+    // check if the document record exists
+    const documentRecordExists = await this.checkDocumentRecord(slug);
+    if (!documentRecordExists) {
+      throw new Error("Document record does not exist");
+    }
+
+    // check if the secret key is correct
+    const documentRecord = await Bun.file(this.documentIndexPath).json();
+    const rawDocumentRecord = documentRecord[slug] as DocumentRecord;
+    if (rawDocumentRecord.secretKey !== secretKey) {
+      throw new Error("Invalid secret key");
+    }
+
+    // update the document record
+    rawDocumentRecord.version = version;
+    rawDocumentRecord.updatedAt = Date.now();
+
+    // update the document file
     const documentName = `${slug}.md`;
     const documentPath = join(this.documentPath, documentName);
-    await writeFile(documentPath, document);
+    await Bun.write(documentPath, document);
+
+    // update the document record
+    await Bun.write(this.documentIndexPath, JSON.stringify(documentRecord, null, 2));
   }
 }

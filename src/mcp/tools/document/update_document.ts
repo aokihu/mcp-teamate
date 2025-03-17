@@ -14,15 +14,14 @@ export const UpdateDocumentTool = (mcpServer: McpServer) => {
     "Update a document in the document manager. You must provide the secret key to access the document.",
     {
       slug: z.string(),
-      title: z.string(),
       content: z.string(),
       secretKey: z.string(),
-      version: z.number(),
+      version: z.string(),
     },
-    async ({ slug, title, content, secretKey, version }) => {
+    async ({ slug, content, secretKey, version }) => {
       const documentManager = DocumentManager.getInstance();
       try {
-        await documentManager.updateDocument(slug, title, content, version, secretKey);
+        await documentManager.updateDocument(slug, content, version, secretKey);
         return { content: [{ type: "text", text: "Document updated successfully" }] };
       } catch (error) {
         return { content: [{ type: "text", text: "Document update failed" + error }] };

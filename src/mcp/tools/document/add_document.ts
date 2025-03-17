@@ -17,7 +17,7 @@ export const AddDocumentTool = (mcpServer: McpServer) => {
       title: z.string(),
       content: z.string(),
       maintainer: z.string(),
-      version: z.number(),
+      version: z.string(),
     },
     async ({ slug, title, content, maintainer, version }) => {
       const documentManager = DocumentManager.getInstance();
