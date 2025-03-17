@@ -3,15 +3,16 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { checkInTool } from "./check_in";
-import { checkOutTool } from "./check_out";
-import { getAllAgentsTool } from "./get_all_agents";
-import { getAllMessagesTool } from "./get_all_messages";
-import { sendMessageTool } from "./send_message";
-import { getMessageTool } from "./get_message";
-import { waitMessageTool } from "./wait_message";
-import { writeMemoryTool } from "./write_memory";
-import { readMemoryTool } from "./read_memory";
+import { checkInTool, checkOutTool, getAllAgentsTool, readMemoryTool, writeMemoryTool } from "./agent/index";
+import { getAllMessagesTool, sendMessageTool, getMessageTool, waitMessageTool } from "./message/index";
+import {
+  AddDocumentTool,
+  DeleteDocumentTool,
+  GetAllDocumentsTool,
+  GetDocumentTool,
+  UpdateDocumentTool,
+} from "./document/index";
+
 export const registerMCPTools = (mcpServer: McpServer) => {
   [
     checkInTool,
@@ -23,5 +24,10 @@ export const registerMCPTools = (mcpServer: McpServer) => {
     waitMessageTool,
     writeMemoryTool,
     readMemoryTool,
+    AddDocumentTool,
+    DeleteDocumentTool,
+    GetAllDocumentsTool,
+    GetDocumentTool,
+    UpdateDocumentTool,
   ].forEach((f) => f(mcpServer));
 };

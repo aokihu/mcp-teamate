@@ -18,3 +18,18 @@ export interface Message {
   timestamp: number;
   read: boolean;
 }
+
+// Document Interface
+export interface DocumentRecord {
+  slug: string;
+  title: string;
+  maintainer: string;
+  version: string;
+  createdAt: number;
+  updatedAt: number;
+  secretKey: string;
+}
+
+export interface Document extends DocumentRecord {
+  content: string;
+}

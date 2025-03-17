@@ -4,7 +4,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { AgentManager } from "../../libs/agent";
+import { AgentManager } from "../../../libs/agent";
 
 export const checkOutTool = (mcpServer: McpServer) => {
   mcpServer.tool(

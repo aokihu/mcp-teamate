@@ -7,7 +7,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { AgentManager } from "../../libs/agent";
+import { AgentManager } from "../../../libs/agent";
 
 export const writeMemoryTool = (mcpServer: McpServer) => {
   mcpServer.tool(

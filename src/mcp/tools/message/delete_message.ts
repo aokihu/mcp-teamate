@@ -7,7 +7,7 @@
 
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { MessageManager } from "../../libs/message";
+import { MessageManager } from "../../../libs/message";
 
 export const deleteMessageTool = (mcpServer: McpServer, serverUrl: string) => {
   mcpServer.tool(
