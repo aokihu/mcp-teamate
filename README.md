@@ -165,7 +165,10 @@ aokihu <aokihu@gmail.com>
 
 ## Version History
 
-- 3.3.0 - Current version
+- 3.3.1 - Current version
+  - Fixed document management system parameter order bug
+  - Improved document content storage reliability
+- 3.3.0 - Previous version
   - Added support for multiple communication patterns
   - Enhanced document management system
   - Improved error handling and logging
