@@ -10,32 +10,18 @@ MCP-TEAMATE is an AI agent communication server based on SSE (Server-Sent Events
 - 💾 SQLite persistent storage
 - 🔒 Secure message delivery mechanism
 - 🤝 Multi-AI agent collaboration
-- 📝 Knowledge management and sharing
+- 📝 Document management system
 - 🌐 Support for both local and cloud deployment
+- 🧠 Agent memory management
+- 🔄 Asynchronous message processing
 
-## Cursor IDE Setup
-
-To use MCP-TEAMATE in Cursor IDE, follow these steps:
-
-1. Open Cursor IDE settings
-2. Navigate to the AI settings section
-3. Add the following configuration:
-
-![Cursor MCP Setting](./imgs/cursor_mcp_setting.png)
-
-Key configuration items:
-- Set the MCP server address
-- Configure agent information
-- Enable SSE connection
-
-## Installation
-
-### Prerequisites
+## Prerequisites
 
 - [Bun](https://bun.sh/) 1.0.0 or higher
+- Node.js 18.0.0 or higher
 - SQLite3
 
-### Setup
+## Installation
 
 ```bash
 # Clone the repository
@@ -63,94 +49,91 @@ TEAMATE_SERVER_HOST=localhost
 TEAMATE_SERVER_PORT=3001
 ```
 
-## MCP Tools
+## Core Features
 
-MCP-TEAMATE provides the following tools for AI agents:
+### 1. Agent Management
+- Agent registration and deregistration
+- Role-based agent system
+- Real-time agent status tracking
 
-### 1. Agent Management Tools
+### 2. Communication System
+- Real-time message delivery
+- Message queuing and persistence
+- Support for multiple communication patterns
+- Message history tracking
 
-#### CheckIn
-- Function: AI agent check-in, inform other agents about their role and capabilities
-- Parameters:
-  - id: string - Agent unique identifier
-  - role: string - Agent role
-  - description: string - Agent description
+### 3. Document Management
+- Version-controlled document storage
+- Document access control
+- Support for multiple document formats
+- Document sharing between agents
 
-#### CheckOut
-- Function: AI agent check-out, indicating task completion
-- Parameters:
-  - id: string - Agent unique identifier
+### 4. Memory System
+- Agent-specific memory storage
+- Persistent memory across sessions
+- Memory sharing capabilities
+- Memory search and retrieval
 
-#### GetAllAgents
-- Function: Get information about all AI agents
-- Parameters: None
+## API Overview
 
-### 2. Communication Tools
-
-#### SendMessage
-- Function: Send message to other agents
-- Parameters:
-  - sender: string - Sender ID
-  - receiver: string - Receiver ID
-  - content: string - Message content
-
-#### GetMessage
-- Function: Get detailed content of a specific message
-- Parameters:
-  - id: string - Message ID
-
-#### GetMyAllMessages
-- Function: Get all messages sent to a specific agent
-- Parameters:
-  - receiver: string - Receiver ID
-
-#### WaitMessage
-- Function: Wait for new messages
-- Parameters:
-  - receiver: string - Receiver ID
-  - timeout?: number - Timeout in milliseconds, defaults to 30000
-
-#### DeleteMessage
-- Function: Delete a specific message
-- Parameters:
-  - id: string - Message ID
-
-### 3. Memory Management Tools
-
-#### WriteMemory
-- Function: Write agent memory
-- Parameters:
-  - id: string - Agent ID
-  - memory: string - Memory content
-
-#### ReadMemory
-- Function: Read agent memory
-- Parameters:
-  - id: string - Agent ID
-
-## Usage Examples
-
-### 1. AI Agent Check-in
+### Agent Management
 ```typescript
-await mcpServer.tool("CheckIn").execute({
+// Agent Check-in
+mcp_Teamate_CheckIn({
   id: "agent1",
   role: "assistant",
-  description: "I am an AI assistant"
+  description: "AI Assistant"
+});
+
+// Agent Check-out
+mcp_Teamate_CheckOut({
+  id: "agent1"
 });
 ```
 
-### 2. Send Message
+### Communication
 ```typescript
-await mcpServer.tool("SendMessage").execute({
+// Send Message
+mcp_Teamate_SendMessage({
   sender: "agent1",
   receiver: "agent2",
   content: "Hello!"
 });
+
+// Wait for Message
+mcp_Teamate_wait_message({
+  receiver: "agent2",
+  timeout: 30000
+});
 ```
 
-### 3. Read Memory
+### Document Management
 ```typescript
-await mcpServer.tool("ReadMemory").execute({
+// Add Document
+mcp_Teamate_add_document({
+  slug: "doc1",
+  title: "Example Document",
+  content: "Document content",
+  maintainer: "agent1",
+  version: "1.0.0"
+});
+
+// Get Document
+mcp_Teamate_get_document({
+  slug: "doc1"
+});
+```
+
+### Memory Management
+```typescript
+// Write Memory
+mcp_Teamate_write_memory({
+  id: "agent1",
+  memory: "Important information"
+});
+
+// Read Memory
+mcp_Teamate_read_memory({
   id: "agent1"
 });
 ```
@@ -161,20 +144,16 @@ await mcpServer.tool("ReadMemory").execute({
 # Run development server
 bun run dev
 
+# Build project
+bun run build
+
 # Compile project
 bun run compile
 ```
 
-## API Documentation
-
-The server provides the following HTTP endpoints:
-
-- `GET /sse` - SSE connection endpoint
-- `POST /messages` - Message handling endpoint
-
 ## Contributing
 
-Issues and pull requests are welcome!
+We welcome contributions! Please feel free to submit a Pull Request.
 
 ## License
 
@@ -186,5 +165,13 @@ aokihu <aokihu@gmail.com>
 
 ## Version History
 
-- 3.1.1 - Current version
+- 3.3.0 - Current version
+  - Added support for multiple communication patterns
+  - Enhanced document management system
+  - Improved error handling and logging
+- 3.2.1 - Previous version
+  - Added document management system
+  - Enhanced memory management
+  - Improved message delivery system
+- 3.1.0 - Added memory management
 - 3.0.0 - Migration to SSE communication
