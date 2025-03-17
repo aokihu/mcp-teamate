@@ -4,9 +4,12 @@ import path from "path";
 import { spawnSync } from "child_process";
 
 const PLATFORMS = [
-  { name: "linux", target: "linux-x64" },
-  { name: "macos", target: "darwin-x64" },
-  { name: "windows", target: "win-x64" },
+  { name: "linux-x64", target: "linux-x64" },
+  { name: "linux-arm64", target: "linux-arm64" },
+  { name: "macos-x64", target: "darwin-x64" },
+  { name: "macos-arm64", target: "darwin-arm64" },
+  { name: "windows-x64", target: "win-x64" },
+  { name: "windows-arm64", target: "win-arm64" },
 ];
 
 const DIST_DIR = "dist";
@@ -43,7 +46,10 @@ async function main() {
 
     // 准备打包文件
     const files = [
-      { source: `${BUILD_DIR}/${PROJECT_NAME}`, target: PROJECT_NAME + (platform.name === "windows" ? ".exe" : "") },
+      {
+        source: `${BUILD_DIR}/${PROJECT_NAME}`,
+        target: PROJECT_NAME + (platform.name.startsWith("windows") ? ".exe" : ""),
+      },
       { source: "README.md", target: "README.md" },
       { source: "README_zh.md", target: "README_zh.md" },
       { source: "LICENSE", target: "LICENSE" },

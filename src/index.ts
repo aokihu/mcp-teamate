@@ -1,7 +1,7 @@
 /**
  *
  * MCP-TEAMATE AI 合作伙伴MCP
- * @version 3.1.1
+ * @version 3.2.0
  * @description This module provides AI partnership functionalities.
  * @author aokihu <aokihu@gmail.com>
  * @license MIT
@@ -19,6 +19,7 @@ import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import { registerMCPTools } from "./mcp/tools/index.js";
 import { registerMCPResources } from "./mcp/resources/index.js";
 import { AgentManager } from "./libs/agent.js";
+import { DocumentManager } from "./libs/document.js";
 
 /* -------------------------------------------- */
 /*                 Environment                  */
@@ -29,11 +30,11 @@ const SERVER_PORT = process.env.TEAMATE_SERVER_PORT || 3001;
 const TEAMATE_VERSION = pkg.version;
 
 /* -------------------------------------------- */
-/*                Setup Database                */
+/*             Initialize Modules               */
 /* -------------------------------------------- */
 
-AgentManager.initDatabase();
-
+await AgentManager.initialize();
+await DocumentManager.initialize();
 /* -------------------------------------------- */
 /*              Setup MCP Server                */
 /* -------------------------------------------- */

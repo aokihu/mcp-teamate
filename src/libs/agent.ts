@@ -20,8 +20,13 @@ export class AgentManager {
     return this.instance;
   }
 
-  constructor() {
-    initDatabase(); // Initialize Memory Database
+  /**
+   * Initialize
+   * @description Initialize the agent manager
+   * @returns {Promise<void>}
+   */
+  static async initialize() {
+    await initDatabase();
   }
 
   /**
