@@ -1,5 +1,5 @@
 import type { Agent } from "../../types/types";
-import { initDatabase, readMemory, writeMemory } from "./database";
+import { addMemory, initDatabase, readMemory, deleteMemory } from "./database";
 import { omits } from "./functional";
 
 /* ----------------------------------*/
@@ -85,19 +85,34 @@ export class AgentManager {
   }
 
   /**
-   * Write Agent Memory
-   * @param id - Agent ID, unique, other agents will use this id to communicate with each other
+   * Add Agent Memory
+   * @param agentId - Agent ID, unique, other agents will use this id to communicate with each other
    * @param memory - Memory, e.g. "I am a UI Designer"
+   * @returns {number} - Memory ID
    */
-  writeMemory(id: string, memory: string) {
-    writeMemory(id, memory);
+  addMemory(agentId: string, memory: string) {
+    const agent = this.getAgentById(agentId);
+    if (agent) {
+      const id = addMemory(agentId, memory);
+      return id;
+    }
+
+    return null;
   }
 
   /**
    * Get Agent Memory
    * @param id - Agent ID, unique, other agents will use this id to communicate with each other
    */
-  getMemory(id: string): string | null {
+  getMemory(id: string): { id: number; memory: string; timestamp: string }[] {
     return readMemory(id);
+  }
+
+  /**
+   * Delete Agent Memory
+   * @param id - Agent ID, unique, other agents will use this id to communicate with each other
+   */
+  deleteMemory(id: string) {
+    deleteMemory(Number(id));
   }
 }
