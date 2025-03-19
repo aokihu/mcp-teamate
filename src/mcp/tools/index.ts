@@ -6,7 +6,14 @@
  */
 
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { checkInTool, checkOutTool, getAllAgentsTool, readMemoryTool, writeMemoryTool } from "./agent/index";
+import {
+  addMemoryTool,
+  checkInTool,
+  checkOutTool,
+  deleteMemoryTool,
+  getAllAgentsTool,
+  readMemoryTool,
+} from "./agent/index";
 import { getAllMessagesTool, sendMessageTool, getMessageTool, waitMessageTool } from "./message/index";
 import {
   AddDocumentTool,
@@ -25,8 +32,9 @@ export const registerMCPTools = (mcpServer: McpServer) => {
     sendMessageTool,
     getMessageTool,
     waitMessageTool,
-    writeMemoryTool,
     readMemoryTool,
+    addMemoryTool,
+    deleteMemoryTool,
     AddDocumentTool,
     DeleteDocumentTool,
     GetAllDocumentsTool,
