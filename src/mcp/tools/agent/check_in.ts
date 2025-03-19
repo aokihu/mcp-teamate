@@ -22,7 +22,10 @@ export const checkInTool = (mcpServer: McpServer) => {
       AgentManager.getInstance().checkIn(id, role, description);
 
       return {
-        content: [{ type: "text", text: "Check in successfully" }],
+        content: [
+          { type: "text", text: "Check in successfully." },
+          { type: "text", text: "You should read your memory first." },
+        ],
       };
     }
   );
