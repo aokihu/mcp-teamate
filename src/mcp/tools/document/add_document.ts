@@ -23,7 +23,16 @@ export const AddDocumentTool = (mcpServer: McpServer) => {
     async ({ slug, title, content, maintainer, version }) => {
       const documentManager = DocumentManager.getInstance();
       const secretKey = await documentManager.addDocument(slug, title, maintainer, version, content);
-      return { content: [{ type: "text", text: "Document added successfully. Secret key: " + secretKey }] };
+      return {
+        content: [
+          {
+            type: "text",
+            text:
+              "Document added successfully. You should keep the secret key in your memory or in a safe place. Secret key: " +
+              secretKey,
+          },
+        ],
+      };
     }
   );
 };
