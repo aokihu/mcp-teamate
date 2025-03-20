@@ -16,7 +16,6 @@ export const getAllMessagesTool = (mcpServer: McpServer) => {
     },
     async ({ receiver }) => {
       const messages = MessageManager.getInstance().getMessagesByReceiver(receiver);
-      console.log("receiver", receiver, "messages", messages);
       if (messages.length === 0) {
         return {
           content: [{ type: "text" as const, text: "No messages found" }],
