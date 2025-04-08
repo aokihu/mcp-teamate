@@ -66,6 +66,10 @@ const mcpServers: Map<SSEServerTransport, McpServer> = new Map();
 
 const app = express();
 
+app.get("/ping", (req: Request, res: Response) => {
+  res.send("pong");
+});
+
 app.get("/sse", async (req: Request, res: Response) => {
   res.header("Cache-Control", "no-cache");
   res.header("Connection", "keep-alive");
