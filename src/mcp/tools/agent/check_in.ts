@@ -3,22 +3,23 @@
  * @author aokihu <aokihu@gmail.com>
  * @license BSD-2
  * @description Check In Tool
+ * @version 2.0.0
  */
-
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { AgentManager } from "../../../libs/agent";
 
-export const checkInTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "CheckIn",
-    "AI Agent Check In, tell other agents your role, ability, goal, etc. The id is unique, other agents will use this id to communicate with each other",
-    {
+export const checkInTool = (mcpServer: FastMCP) => {
+  mcpServer.addTool({
+    name: "CheckIn",
+    description:
+      "AI Agent Check In, tell other agents your role, ability, goal, etc. The id is unique, other agents will use this id to communicate with each other",
+    parameters: z.object({
       id: z.string(),
       role: z.string(),
       description: z.string(),
-    },
-    async ({ id, role, description }) => {
+    }),
+    execute: async ({ id, role, description }) => {
       AgentManager.getInstance().checkIn(id, role, description);
 
       return {
@@ -27,6 +28,6 @@ export const checkInTool = (mcpServer: McpServer) => {
           { type: "text", text: "You should read your memory first." },
         ],
       };
-    }
-  );
+    },
+  });
 };

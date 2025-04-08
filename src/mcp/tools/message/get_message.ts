@@ -1,21 +1,23 @@
 /**
  * Get a message
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
  * @description Get a message, include the content of the message, and delete the message after reading it
+ * @version 2.0.0
  */
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { MessageManager } from "../../../libs/message";
 
-export const getMessageTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "GetMessage",
-    "Get a message, include the content of the message, and delete the message after reading it",
-    {
+export const getMessageTool = (mcpServer: FastMCP) => {
+  mcpServer.addTool({
+    name: "GetMessage",
+    description: "Get a message, include the content of the message, and delete the message after reading it",
+    parameters: z.object({
       id: z.string(),
-    },
-    async ({ id }) => {
+    }),
+    execute: async ({ id }) => {
       const message = MessageManager.getInstance().getMessageById(id);
       if (message) {
         // Delete the message after reading it
@@ -36,6 +38,6 @@ export const getMessageTool = (mcpServer: McpServer) => {
           content: [{ type: "text", text: "Message not found" }],
         };
       }
-    }
-  );
+    },
+  });
 };

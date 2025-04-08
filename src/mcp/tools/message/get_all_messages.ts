@@ -1,20 +1,23 @@
 /**
  * Get All Messages for a specific agent
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
+ * @version 2.0.0
  */
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { MessageManager } from "../../../libs/message";
 
-export const getAllMessagesTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "GetMyAllMessages",
-    "Get all messages for a specific agent, only show the sender and receiver of the message, not the content",
-    {
+export const getAllMessagesTool = (mcpServer: FastMCP) => {
+  mcpServer.addTool({
+    name: "GetMyAllMessages",
+    description:
+      "Get all messages for a specific agent, only show the sender and receiver of the message, not the content",
+    parameters: z.object({
       receiver: z.string(),
-    },
-    async ({ receiver }) => {
+    }),
+    execute: async ({ receiver }) => {
       const messages = MessageManager.getInstance().getMessagesByReceiver(receiver);
       if (messages.length === 0) {
         return {
@@ -30,6 +33,6 @@ export const getAllMessagesTool = (mcpServer: McpServer) => {
           })),
         ],
       };
-    }
-  );
+    },
+  });
 };

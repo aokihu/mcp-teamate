@@ -1,22 +1,25 @@
 /**
  * Send Message to Other Agents
  * @author aokihu <aokihu@gmail.com>
+ * @license BSD-2
+ * @version 2.0.0
  */
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { MessageManager } from "../../../libs/message";
 
-export const sendMessageTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "SendMessage",
-    "send message to other agents, the sender and receiver must be the id of the agent, and you need delete the message after read it",
-    {
+export const sendMessageTool = (mcpServer: FastMCP) => {
+  mcpServer.addTool({
+    name: "SendMessage",
+    description:
+      "send message to other agents, the sender and receiver must be the id of the agent, and you need delete the message after read it",
+    parameters: z.object({
       sender: z.string(),
       receiver: z.string(),
       content: z.string(),
-    },
-    async ({ sender, receiver, content }) => {
+    }),
+    execute: async ({ sender, receiver, content }) => {
       const messageId = MessageManager.getInstance().sendMessage(sender, receiver, content);
       if (messageId) {
         return {
@@ -27,6 +30,6 @@ export const sendMessageTool = (mcpServer: McpServer) => {
           content: [{ type: "text", text: "Message sent failed" }],
         };
       }
-    }
-  );
+    },
+  });
 };

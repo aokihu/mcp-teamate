@@ -1,5 +1,7 @@
-export { deleteMessageTool } from "./delete_message";
-export { getAllMessagesTool } from "./get_all_messages";
-export { getMessageTool } from "./get_message";
-export { sendMessageTool } from "./send_message";
-export { waitMessageTool } from "./wait_message";
+import { deleteMessageTool } from "./delete_message";
+import { getAllMessagesTool } from "./get_all_messages";
+import { getMessageTool } from "./get_message";
+import { sendMessageTool } from "./send_message";
+import { waitMessageTool } from "./wait_message";
+
+export const MessageTools = [deleteMessageTool, getAllMessagesTool, getMessageTool, sendMessageTool, waitMessageTool];

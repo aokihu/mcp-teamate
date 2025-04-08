@@ -1,5 +1,13 @@
-export { AddDocumentTool } from "./add_document";
-export { DeleteDocumentTool } from "./delete_document";
-export { GetAllDocumentsTool } from "./get_all_documents";
-export { GetDocumentTool } from "./get_document";
-export { UpdateDocumentTool } from "./update_document";
+import { AddDocumentTool } from "./add_document";
+import { DeleteDocumentTool } from "./delete_document";
+import { GetAllDocumentsTool } from "./get_all_documents";
+import { GetDocumentTool } from "./get_document";
+import { UpdateDocumentTool } from "./update_document";
+
+export const DocumentTools = [
+  AddDocumentTool,
+  DeleteDocumentTool,
+  GetAllDocumentsTool,
+  GetDocumentTool,
+  UpdateDocumentTool,
+];

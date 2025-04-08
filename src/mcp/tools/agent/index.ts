@@ -1,6 +1,15 @@
-export { checkInTool } from "./check_in";
-export { checkOutTool } from "./check_out";
-export { getAllAgentsTool } from "./get_all_agents";
-export { readMemoryTool } from "./read_memory";
-export { addMemoryTool } from "./add_memory";
-export { deleteMemoryTool } from "./delete_memory";
+import { checkInTool } from "./check_in";
+import { checkOutTool } from "./check_out";
+import { getAllAgentsTool } from "./get_all_agents";
+import { readMemoryTool } from "./read_memory";
+import { addMemoryTool } from "./add_memory";
+import { deleteMemoryTool } from "./delete_memory";
+
+export const AgentTools = [
+  checkInTool,
+  checkOutTool,
+  getAllAgentsTool,
+  readMemoryTool,
+  addMemoryTool,
+  deleteMemoryTool,
+];
