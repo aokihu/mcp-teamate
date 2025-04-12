@@ -18,6 +18,12 @@ export const readMemoryTool = (mcpServer: McpServer) => {
     },
     async ({ id }) => {
       const memories = AgentManager.getInstance().getMemory(id);
+
+      if (memories.length === 0) {
+        return {
+          content: [{ type: "text", text: "No memories found" }],
+        };
+      }
       return {
         content: memories.map((x) => ({ type: "text", text: `<<${x.id}>>\n${x.memory}` })),
       };
