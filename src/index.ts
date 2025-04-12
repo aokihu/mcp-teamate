@@ -37,6 +37,7 @@ const TEAMATE_VERSION = pkg.version;
 
 await AgentManager.initialize();
 await DocumentManager.initialize();
+
 /* -------------------------------------------- */
 /*              Setup MCP Server                */
 /* -------------------------------------------- */
