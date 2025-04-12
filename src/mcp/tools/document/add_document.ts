@@ -11,7 +11,7 @@ import { DocumentManager } from "../../../libs/document";
 
 export const AddDocumentTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "add_document",
+    "Add Document",
     "Add new document to the document manager. It will return a secret key to access the document, you must keep it safe. You can store it in your memory or in a safe place.",
     {
       slug: z.string(),

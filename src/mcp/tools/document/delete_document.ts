@@ -11,7 +11,7 @@ import { DocumentManager } from "../../../libs/document";
 
 export const DeleteDocumentTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "delete_document",
+    "Delete Document",
     "Delete a document from the document manager. You must provide the secret key to access the document.",
     {
       slug: z.string(),

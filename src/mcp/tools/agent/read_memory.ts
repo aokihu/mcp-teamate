@@ -11,7 +11,7 @@ import { AgentManager } from "../../../libs/agent";
 
 export const readMemoryTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "read_memory",
+    "Read Memory",
     "Read Memory. This tool is used to read the all memories of the agent.",
     {
       id: z.string(),

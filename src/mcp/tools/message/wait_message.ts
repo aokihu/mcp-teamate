@@ -14,7 +14,7 @@ import { MessageManager } from "../../../libs/message";
 
 export const waitMessageTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "wait_message",
+    "Wait Message",
     "Wait Message Tool, this tool will block the current execution until a message is received. The timeout is 30 seconds, unit is milliseconds",
     { receiver: z.string(), timeout: z.number().optional() },
     async ({ receiver, timeout = 30000 }) => {

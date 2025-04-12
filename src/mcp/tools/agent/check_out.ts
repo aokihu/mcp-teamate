@@ -11,7 +11,7 @@ import { AgentManager } from "../../../libs/agent";
 
 export const checkOutTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "CheckOut",
+    "Check Out",
     "AI Agent Check Out, tell other agents you have finished the task, you can rest now",
     {
       id: z.string(),

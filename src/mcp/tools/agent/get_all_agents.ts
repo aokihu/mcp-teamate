@@ -9,7 +9,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { AgentManager } from "../../../libs/agent";
 
 export const getAllAgentsTool = (mcpServer: McpServer) => {
-  mcpServer.tool("GetAllAgents", "Get all AI agent information", {}, async () => {
+  mcpServer.tool("Get All Agents", "Get all AI agent information", {}, async () => {
     const agents = AgentManager.getInstance().getAllAgents();
     return {
       content: [

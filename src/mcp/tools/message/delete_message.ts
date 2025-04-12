@@ -11,7 +11,7 @@ import { MessageManager } from "../../../libs/message";
 
 export const deleteMessageTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "delete_message",
+    "Delete Message",
     "Delete Message, cannot be recovered",
     {
       id: z.string(),

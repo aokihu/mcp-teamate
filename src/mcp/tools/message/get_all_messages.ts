@@ -9,7 +9,7 @@ import { MessageManager } from "../../../libs/message";
 
 export const getAllMessagesTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "GetMyAllMessages",
+    "Get My All Messages",
     "Get all messages for a specific agent, only show the sender and receiver of the message, not the content",
     {
       receiver: z.string(),

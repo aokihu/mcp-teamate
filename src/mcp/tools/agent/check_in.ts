@@ -11,7 +11,7 @@ import { AgentManager } from "../../../libs/agent";
 
 export const checkInTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "CheckIn",
+    "Check In",
     "AI Agent Check In, tell other agents your role, ability, goal, etc. The id is unique, other agents will use this id to communicate with each other",
     {
       id: z.string(),

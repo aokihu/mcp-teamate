@@ -5,7 +5,7 @@
   },
   "module": "index.ts",
   "type": "module",
-  "version": "3.4.1",
+  "version": "3.4.2",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "build": "bun run scripts/build.ts",
