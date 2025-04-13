@@ -54,6 +54,18 @@ const createMCPServer = () => {
   registerMCPTools(mcpServer);
   registerMCPResources(mcpServer);
 
+  // 设定定时Ping客户端
+  mcpServer.tool("ping", async () => {
+    return {
+      content: [
+        {
+          type: "text",
+          text: "pong",
+        },
+      ],
+    };
+  });
+
   return mcpServer;
 };
 
@@ -92,6 +104,15 @@ app.get("/sse", async (req: Request, res: Response) => {
     params: { message: "SSE Connection established" },
   });
 
+  // 设定定时Ping客户端
+  const pingInterval = setInterval(() => {
+    transport.send({
+      jsonrpc: "2.0",
+      method: "sse/ping",
+      params: { message: "Ping" },
+    });
+  }, 10000);
+
   // Clear disconnect client
   req.on("close", () => {
     if (transport) {
@@ -99,6 +120,8 @@ app.get("/sse", async (req: Request, res: Response) => {
       transports.delete(transport.sessionId);
       mcpServers.delete(transport);
     }
+
+    clearInterval(pingInterval);
   });
 
   return;
