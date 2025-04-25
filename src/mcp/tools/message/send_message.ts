@@ -9,7 +9,7 @@ import { MessageManager } from "../../../libs/message";
 
 export const sendMessageTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "Send Message",
+    "send_message",
     "send message to other agents, the sender and receiver must be the id of the agent, and you need delete the message after read it",
     {
       sender: z.string(),

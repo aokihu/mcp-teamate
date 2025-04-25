@@ -11,7 +11,7 @@ import { DocumentManager } from "../../../libs/document";
 
 export const UpdateDocumentTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "Update Document",
+    "update_document",
     "Update a document in the document manager. You must provide the secret key to access the document.",
     {
       slug: z.string(),

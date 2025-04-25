@@ -10,10 +10,15 @@ import { z } from "zod";
 import { AgentManager } from "../../../libs/agent";
 
 export const addMemoryTool = (mcpServer: McpServer) => {
-  mcpServer.tool("Add Memory", "Add Memory", { id: z.string(), memory: z.string() }, async ({ id, memory }) => {
-    const memoryId = AgentManager.getInstance().addMemory(id, memory);
-    return {
-      content: [{ type: "text", text: `Memory added with id: ${memoryId}` }],
-    };
-  });
+  mcpServer.tool(
+    "add_memory",
+    "Add Memory for Agent",
+    { id: z.string(), memory: z.string() },
+    async ({ id, memory }) => {
+      const memoryId = AgentManager.getInstance().addMemory(id, memory);
+      return {
+        content: [{ type: "text", text: `Memory added with id: ${memoryId}` }],
+      };
+    }
+  );
 };

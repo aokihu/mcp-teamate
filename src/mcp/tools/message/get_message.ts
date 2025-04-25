@@ -10,7 +10,7 @@ import { MessageManager } from "../../../libs/message";
 
 export const getMessageTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "Get Message",
+    "get_message",
     "Get a message, include the content of the message, and delete the message after reading it",
     {
       id: z.string(),

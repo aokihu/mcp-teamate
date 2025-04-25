@@ -11,7 +11,7 @@ import { DocumentManager } from "../../../libs/document";
 
 export const GetDocumentTool = (mcpServer: McpServer) => {
   mcpServer.tool(
-    "Get Document",
+    "get_document",
     "Get a document from the document manager",
     {
       slug: z.string(),
