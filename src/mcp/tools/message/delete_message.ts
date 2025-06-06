@@ -9,19 +9,11 @@ import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { MessageManager } from "../../../libs/message";
 
-<<<<<<< HEAD
-export const deleteMessageTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "delete_message",
-    "Delete Message, cannot be recovered",
-    {
-=======
 export const deleteMessageTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
     name: "delete_message",
     description: "Delete Message, cannot be recovered",
     parameters: z.object({
->>>>>>> v4.1.0
       id: z.string(),
     }),
     execute: async ({ id }) => {

@@ -10,14 +10,6 @@ import type { FastMCP } from "fastmcp";
 import { AgentManager } from "../../../libs/agent";
 import { z } from "zod";
 
-<<<<<<< HEAD
-export const getAllAgentsTool = (mcpServer: McpServer) => {
-  mcpServer.tool("get_all_agents", "Get all AI agent information", {}, async () => {
-    const agents = AgentManager.getInstance().getAllAgents();
-    return {
-      content: [
-        {
-=======
 export const getAllAgentsTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
     name: "get_all_agents",
@@ -27,7 +19,6 @@ export const getAllAgentsTool = (mcpServer: FastMCP) => {
       const agents = AgentManager.getInstance().getAllAgents();
       return {
         content: agents.map((agent) => ({
->>>>>>> v4.1.0
           type: "text",
           text: `Agent ID: ${agent.id}, Role: ${agent.role}, Working: ${
             agent.working ? "Yes" : "No"

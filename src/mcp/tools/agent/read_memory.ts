@@ -19,10 +19,6 @@ export const readMemoryTool = (mcpServer: FastMCP) => {
     }),
     execute: async ({ id }) => {
       const memories = AgentManager.getInstance().getMemory(id);
-<<<<<<< HEAD
-
-=======
->>>>>>> v4.1.0
       if (memories.length === 0) {
         return {
           content: [{ type: "text", text: "No memories found" }],

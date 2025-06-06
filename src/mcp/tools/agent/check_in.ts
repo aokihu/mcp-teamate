@@ -9,20 +9,12 @@ import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { AgentManager } from "../../../libs/agent";
 
-<<<<<<< HEAD
-export const checkInTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "check_in",
-    "AI Agent Check In, tell other agents your role, ability, goal, etc. The id is unique, other agents will use this id to communicate with each other",
-    {
-=======
 export const checkInTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
     name: "check_in",
     description:
       "AI Agent Check In, tell other agents your role, ability, goal, etc. The id is unique, other agents will use this id to communicate with each other",
     parameters: z.object({
->>>>>>> v4.1.0
       id: z.string(),
       role: z.string(),
       description: z.string(),

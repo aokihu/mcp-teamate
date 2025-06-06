@@ -9,20 +9,12 @@ import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { MessageManager } from "../../../libs/message";
 
-<<<<<<< HEAD
-export const getAllMessagesTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "get_all_messages",
-    "Get all messages for a specific agent, only show the sender and receiver of the message, not the content",
-    {
-=======
 export const getAllMessagesTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
     name: "get_all_messages",
     description:
       "Get all messages for a specific agent, only show the sender and receiver of the message, not the content",
     parameters: z.object({
->>>>>>> v4.1.0
       receiver: z.string(),
     }),
     execute: async ({ receiver }) => {
