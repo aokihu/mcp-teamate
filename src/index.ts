@@ -15,10 +15,13 @@ import pkg from "../package.json" assert { type: "json" };
 import express, { type Request, type Response } from "express";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
-import { registerMCPTools } from "./mcp/tools/index.js";
+import { registerMCPTools } from "./mcp/tools";
 import { registerMCPResources } from "./mcp/resources/index.js";
 import { AgentManager } from "./libs/agent.js";
 import { DocumentManager } from "./libs/document.js";
+import { FastMCP } from "fastmcp";
+import { z } from "zod";
+import jwt from "jsonwebtoken";
 
 /* -------------------------------------------- */
 /*                 Environment                  */
@@ -34,9 +37,11 @@ const TEAMATE_VERSION = pkg.version;
 
 await AgentManager.initialize();
 await DocumentManager.initialize();
+
 /* -------------------------------------------- */
 /*              Setup MCP Server                */
 /* -------------------------------------------- */
+<<<<<<< HEAD
 
 const createMCPServer = () => {
   const mcpServer = new McpServer(
@@ -133,27 +138,22 @@ app.post("/messages", async (req, res) => {
 
   if (!sessionId) {
     return res.status(400).send("No sessionId");
+=======
+const server = new FastMCP({
+  name: "Teamate",
+  version: String(TEAMATE_VERSION) as `${number}.${number}.${number}`,
+  "ping": {
+    "enabled":true,
+    "intervalMs":15000
+>>>>>>> v4.1.0
   }
-
-  const transport = transports.get(sessionId);
-
-  if (!transport) {
-    return res.status(400).send("Transport not found");
-  }
-
-  await transport.handlePostMessage(req, res);
 });
 
-app.listen(SERVER_PORT, () => {
-  console.log(`MCP-TEAMATE v${TEAMATE_VERSION}`);
-  console.log(`Server is running on http://${SERVER_HOST}:${SERVER_PORT}`);
-  console.log(`You can add this setting to your MCP server:
-  
-{
-  "mcpServers": {
-    "Teamate": {
-      "url": "http://${SERVER_HOST}:${SERVER_PORT}/sse"
-    }
+registerMCPTools(server);
+
+server.start({
+  transportType:"httpStream",
+  httpStream: {
+    "port": Number(SERVER_PORT)
   }
-}`);
 });

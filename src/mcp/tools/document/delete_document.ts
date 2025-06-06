@@ -3,21 +3,22 @@
  * @author aokihu <aokihu@gmail.com>
  * @license BSD-2
  * @description Delete a document from the document manager
+ * @version 2.0.0
  */
 
 import { z } from "zod";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { FastMCP } from "fastmcp";
 import { DocumentManager } from "../../../libs/document";
 
-export const DeleteDocumentTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "delete_document",
-    "Delete a document from the document manager. You must provide the secret key to access the document.",
-    {
+export const DeleteDocumentTool = (mcpServer: FastMCP) => {
+  mcpServer.addTool({
+    name: "delete_document",
+    description: "Delete a document from the document manager. You must provide the secret key to access the document.",
+    parameters: z.object({
       slug: z.string(),
       secretKey: z.string(),
-    },
-    async ({ slug, secretKey }) => {
+    }),
+    execute: async ({ slug, secretKey }) => {
       const documentManager = DocumentManager.getInstance();
       try {
         await documentManager.deleteDocument(slug, secretKey);
@@ -25,6 +26,6 @@ export const DeleteDocumentTool = (mcpServer: McpServer) => {
       } catch (error) {
         return { content: [{ type: "text", text: "Document deletion failed" }] };
       }
-    }
-  );
+    },
+  });
 };

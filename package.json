@@ -5,7 +5,11 @@
   },
   "module": "index.ts",
   "type": "module",
+<<<<<<< HEAD
   "version": "3.5.2",
+=======
+  "version": "4.1.0",
+>>>>>>> v4.1.0
   "scripts": {
     "dev": "bun run --watch src/index.ts",
     "build": "bun run scripts/build.ts",
@@ -14,8 +18,14 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/express": "^5.0.1",
+<<<<<<< HEAD
     "zod": "^3.24.3",
     "bun-types": "latest"
+=======
+    "@types/jsonwebtoken": "^9.0.9",
+    "bun-types": "latest",
+    "zod": "^3.24.2"
+>>>>>>> v4.1.0
   },
   "peerDependencies": {
     "typescript": "^5.8.2"
@@ -26,6 +36,8 @@
     "@types/uuid": "^10.0.0",
     "compressing": "^1.10.1",
     "express": "^4.21.2",
+    "fastmcp": "^2.2.2",
+    "jsonwebtoken": "^9.0.2",
     "uuid": "^11.1.0"
   }
 }

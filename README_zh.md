@@ -1,12 +1,15 @@
-# MCP-TEAMATE
+# MCP-TEAMATE 
+---
 
 [English](./README.md)
 
-MCP-TEAMATE 是一个基于SSE（Server-Sent Events）的AI代理通信服务器，它为AI代理提供了一个类似公司团队的交互环境。通过MCP协议，AI代理可以相互通信、共享知识、协同工作。
+MCP-TEAMATE 是一个基于 httpstream（替换原有 SSE）的AI代理通信服务器，它为AI代理提供了一个类似公司团队的交互环境。通过MCP协议，AI代理可以相互通信、共享知识、协同工作。
+
+--- 
 
 ## 特性
 
-- 🚀 基于SSE的实时通信
+- 🚀 基于 httpstream 的实时通信
 - 💾 SQLite持久化存储
 - 🔒 安全的消息传递机制
 - 🤝 支持多AI代理协作
@@ -30,7 +33,7 @@ git clone https://github.com/yourusername/mcp-teamate.git
 # 进入项目目录
 cd mcp-teamate
 
-# 安装依赖
+# 安装依赖,可选
 bun install
 
 # 启动开发服务器
@@ -79,22 +82,41 @@ TEAMATE_SERVER_PORT=3001
 ### 代理管理
 ```typescript
 // 代理签到
-mcp_Teamate_CheckIn({
+mcp_Teamate_check_in({
   id: "agent1",
   role: "assistant",
   description: "AI助手"
 });
 
 // 代理签出
-mcp_Teamate_CheckOut({
+mcp_Teamate_check_out({
+  id: "agent1"
+});
+
+// 获取所有代理
+mcp_Teamate_get_all_agents({});
+
+// 添加记忆
+mcp_Teamate_add_memory({
+  id: "agent1",
+  memory: "重要信息"
+});
+
+// 读取记忆
+mcp_Teamate_read_memory({
+  id: "agent1"
+});
+
+// 删除记忆
+mcp_Teamate_delete_memory({
   id: "agent1"
 });
 ```
 
-### 通信
+### 通信系统
 ```typescript
 // 发送消息
-mcp_Teamate_SendMessage({
+mcp_Teamate_send_message({
   sender: "agent1",
   receiver: "agent2",
   content: "你好！"
@@ -104,6 +126,21 @@ mcp_Teamate_SendMessage({
 mcp_Teamate_wait_message({
   receiver: "agent2",
   timeout: 30000
+});
+
+// 获取某接收者的所有消息
+mcp_Teamate_get_all_messages({
+  receiver: "agent2"
+});
+
+// 获取指定ID的消息
+mcp_Teamate_get_message({
+  id: "message_id"
+});
+
+// 删除指定ID的消息
+mcp_Teamate_delete_message({
+  id: "message_id"
 });
 ```
 
@@ -118,23 +155,26 @@ mcp_Teamate_add_document({
   version: "1.0.0"
 });
 
+// 删除文档
+mcp_Teamate_delete_document({
+  slug: "doc1",
+  secretKey: "你的密钥"
+});
+
+// 获取所有文档
+mcp_Teamate_get_all_documents({});
+
 // 获取文档
 mcp_Teamate_get_document({
   slug: "doc1"
 });
-```
 
-### 记忆管理
-```typescript
-// 写入记忆
-mcp_Teamate_write_memory({
-  id: "agent1",
-  memory: "重要信息"
-});
-
-// 读取记忆
-mcp_Teamate_read_memory({
-  id: "agent1"
+// 更新文档
+mcp_Teamate_update_document({
+  slug: "doc1",
+  content: "更新后的内容",
+  secretKey: "你的密钥",
+  version: "1.0.1"
 });
 ```
 
@@ -165,7 +205,9 @@ aokihu <aokihu@gmail.com>
 
 ## 版本历史
 
-- 3.3.0 - 当前版本
+- 4.1.0 - 当前版本
+  - 使用 httpstream 替换原有 SSE 实现
+- 3.3.0 - 上一版本
   - 添加多种通信模式支持
   - 增强文档管理系统
   - 改进错误处理和日志记录

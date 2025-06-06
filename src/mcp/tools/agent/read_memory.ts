@@ -2,23 +2,27 @@
  * Read Memory
  * @author aokihu <aokihu@gmail.com>
  * @license BSD-2
- * @version 1.1.0
+ * @version 2.0.0
  */
 
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { FastMCP } from "fastmcp";
 import { z } from "zod";
 import { AgentManager } from "../../../libs/agent";
 
-export const readMemoryTool = (mcpServer: McpServer) => {
-  mcpServer.tool(
-    "read_memory",
-    "Read Memory. This tool is used to read the all memories of the agent.",
-    {
+export const readMemoryTool = (mcpServer: FastMCP) => {
+  mcpServer.addTool({
+    name: "read_memory",
+    description:
+      "Read Memory for yourself. You can read the memory id list from yourself. Then you can get details from the memory id",
+    parameters: z.object({
       id: z.string(),
-    },
-    async ({ id }) => {
+    }),
+    execute: async ({ id }) => {
       const memories = AgentManager.getInstance().getMemory(id);
+<<<<<<< HEAD
 
+=======
+>>>>>>> v4.1.0
       if (memories.length === 0) {
         return {
           content: [{ type: "text", text: "No memories found" }],
@@ -27,6 +31,6 @@ export const readMemoryTool = (mcpServer: McpServer) => {
       return {
         content: memories.map((x) => ({ type: "text", text: `<<${x.id}>>\n${x.memory}` })),
       };
-    }
-  );
+    },
+  });
 };

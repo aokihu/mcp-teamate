@@ -2,7 +2,7 @@
  * Database
  * @author aokihu <aokihu@gmail.com>
  * @license BSD-2
- * @version 2.0.0
+ * @version 2.0.1
  */
 
 import { Database } from "bun:sqlite";
@@ -31,12 +31,14 @@ export async function initDatabase() {
   // Create agent memory table
   // Table structure
   // id: Memory ID, primary key, auto increment
+  // memory_type: Memory type, text type, not null
   // memory: Agent memory, text type, not null
   // agent_id: AI agent ID
   // timestamp: Timestamp
   db.run(`
         CREATE TABLE IF NOT EXISTS agent_memory (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            memory_type TEXT NOT NULL,
             memory TEXT NOT NULL,
             agent_id TEXT NOT NULL,
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -50,11 +52,11 @@ export async function initDatabase() {
  * @param memory - Memory, e.g. "I am a UI Designer"
  * @returns {number} - Memory ID
  */
-export function addMemory(agentId: string, memory: string): number {
+export function addMemory(agentId: string, memory: string, memoryType: string): number {
   const stmt = db.prepare(
-    "INSERT OR REPLACE INTO agent_memory (memory, agent_id, timestamp) VALUES (?, ?, CURRENT_TIMESTAMP)"
+    "INSERT OR REPLACE INTO agent_memory (memory_type, memory, agent_id, timestamp) VALUES (?, ?, ?, CURRENT_TIMESTAMP)"
   );
-  const result = stmt.run(memory, agentId);
+  const result = stmt.run(memoryType, memory, agentId);
   return result.lastInsertRowid as number;
 }
 
@@ -65,12 +67,14 @@ export function addMemory(agentId: string, memory: string): number {
  */
 export function readMemory(agentId: string): {
   id: number;
+  memoryType: string;
   memory: string;
   timestamp: string;
 }[] {
-  const stmt = db.prepare("SELECT id, memory, timestamp FROM agent_memory WHERE agent_id = ?");
+  const stmt = db.prepare("SELECT id, memory_type, memory, timestamp FROM agent_memory WHERE agent_id = ?");
   const result = stmt.all(agentId) as {
     id: number;
+    memoryType: string;
     memory: string;
     timestamp: string;
   }[];
