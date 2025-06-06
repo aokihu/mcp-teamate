@@ -3,7 +3,7 @@
  * @author aokihu <aokihu@gmail.com>
  * @license BSD-2
  * @description Get a message, include the content of the message, and delete the message after reading it
- * @version 2.0.0
+ * @version 2.0.1
  */
 
 import type { FastMCP } from "fastmcp";
@@ -12,7 +12,7 @@ import { MessageManager } from "../../../libs/message";
 
 export const getMessageTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
-    name: "GetMessage",
+    name: "get_message",
     description: "Get a message, include the content of the message, and delete the message after reading it",
     parameters: z.object({
       id: z.string(),

@@ -12,7 +12,7 @@ import { z } from "zod";
 
 export const getAllAgentsTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
-    name: "GetAllAgents",
+    name: "get_all_agents",
     description: "Get all AI agent information",
     parameters: z.object({}),
     execute: async () => {

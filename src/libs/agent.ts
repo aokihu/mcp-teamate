@@ -88,12 +88,13 @@ export class AgentManager {
    * Add Agent Memory
    * @param agentId - Agent ID, unique, other agents will use this id to communicate with each other
    * @param memory - Memory, e.g. "I am a UI Designer"
+   * @param memoryType - Memory type, e.g. "longterm", "shortterm", "important"
    * @returns {number} - Memory ID
    */
-  addMemory(agentId: string, memory: string) {
+  addMemory(agentId: string, memory: string, memoryType: string = "longterm") {
     const agent = this.getAgentById(agentId);
     if (agent) {
-      const id = addMemory(agentId, memory);
+      const id = addMemory(agentId, memory, memoryType);
       return id;
     }
 

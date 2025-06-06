@@ -44,14 +44,17 @@ await DocumentManager.initialize();
 const server = new FastMCP({
   name: "Teamate",
   version: String(TEAMATE_VERSION) as `${number}.${number}.${number}`,
+  "ping": {
+    "enabled":true,
+    "intervalMs":15000
+  }
 });
 
 registerMCPTools(server);
 
 server.start({
-  transportType: "sse",
-  sse: {
-    endpoint: "/sse",
-    port: Number(SERVER_PORT),
-  },
+  transportType:"httpStream",
+  httpStream: {
+    "port": Number(SERVER_PORT)
+  }
 });

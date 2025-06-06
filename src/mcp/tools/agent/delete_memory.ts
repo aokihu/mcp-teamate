@@ -12,7 +12,7 @@ import { AgentManager } from "../../../libs/agent";
 export const deleteMemoryTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
     name: "delete_memory",
-    description: "Delete Memory",
+    description: "Delete Memory for yourself",
     parameters: z.object({ id: z.string() }),
     execute: async ({ id }) => {
       AgentManager.getInstance().deleteMemory(id);

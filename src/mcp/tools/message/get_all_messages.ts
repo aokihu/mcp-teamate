@@ -2,7 +2,7 @@
  * Get All Messages for a specific agent
  * @author aokihu <aokihu@gmail.com>
  * @license BSD-2
- * @version 2.0.0
+ * @version 2.0.1
  */
 
 import type { FastMCP } from "fastmcp";
@@ -11,7 +11,7 @@ import { MessageManager } from "../../../libs/message";
 
 export const getAllMessagesTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
-    name: "GetMyAllMessages",
+    name: "get_all_messages",
     description:
       "Get all messages for a specific agent, only show the sender and receiver of the message, not the content",
     parameters: z.object({

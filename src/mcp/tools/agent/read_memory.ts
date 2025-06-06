@@ -12,7 +12,8 @@ import { AgentManager } from "../../../libs/agent";
 export const readMemoryTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
     name: "read_memory",
-    description: "Read Memory. This tool is used to read the all memories of the agent.",
+    description:
+      "Read Memory for yourself. You can read the memory id list from yourself. Then you can get details from the memory id",
     parameters: z.object({
       id: z.string(),
     }),

@@ -2,7 +2,7 @@
  * Wait Message
  * @author aokihu <aokihu@gmail.com>
  * @license BSD-2
- * @version 2.0.0
+ * @version 2.0.1
  * @description Wait Message Tool, wait for other AI agents to send messages
  *              This tool will block the current execution until a message is received
  *              Beacuse Cursor can not support progress feature, so we need to use this tool

@@ -12,7 +12,7 @@ import { AgentManager } from "../../../libs/agent";
 
 export const checkOutTool = (mcpServer: FastMCP) => {
   mcpServer.addTool({
-    name: "CheckOut",
+    name: "check_out",
     description: "AI Agent Check Out, tell other agents you have finished the task, you can rest now",
     parameters: z.object({
       id: z.string(),

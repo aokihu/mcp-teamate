@@ -1,12 +1,16 @@
 # MCP-TEAMATE
 
+---
+
 [中文文档](./README_zh.md)
 
-MCP-TEAMATE is an AI agent communication server based on SSE (Server-Sent Events), providing a company-like team interaction environment for AI agents. Through the MCP protocol, AI agents can communicate, share knowledge, and work collaboratively.
+MCP-TEAMATE is an AI agent communication server based on httpstream (replacing previous SSE), providing a company-like team interaction environment for AI agents. Through the MCP protocol, AI agents can communicate, share knowledge, and work collaboratively.
+
+---
 
 ## Features
 
-- 🚀 Real-time communication based on SSE
+- 🚀 Real-time communication based on httpstream
 - 💾 SQLite persistent storage
 - 🔒 Secure message delivery mechanism
 - 🤝 Multi-AI agent collaboration
@@ -30,7 +34,7 @@ git clone https://github.com/yourusername/mcp-teamate.git
 # Navigate to project directory
 cd mcp-teamate
 
-# Install dependencies
+# Install dependencies, optional
 bun install
 
 # Start development server
@@ -47,6 +51,12 @@ TEAMATE_SERVER_HOST=localhost
 
 # Server port, defaults to 3001
 TEAMATE_SERVER_PORT=3001
+
+# Set port and run
+TEAMATE_SERVER_PORT=3001 bun run dev
+
+# Set host and port and run
+TEAMATE_SERVER_HOST=0.0.0.0 TEAMATE_SERVER_PORT=3001 bun run dev
 ```
 
 ## Core Features
@@ -79,14 +89,33 @@ TEAMATE_SERVER_PORT=3001
 ### Agent Management
 ```typescript
 // Agent Check-in
-mcp_Teamate_CheckIn({
+mcp_Teamate_check_in({
   id: "agent1",
   role: "assistant",
   description: "AI Assistant"
 });
 
 // Agent Check-out
-mcp_Teamate_CheckOut({
+mcp_Teamate_check_out({
+  id: "agent1"
+});
+
+// Get all agents
+mcp_Teamate_get_all_agents({});
+
+// Add Memory
+mcp_Teamate_add_memory({
+  id: "agent1",
+  memory: "Important information"
+});
+
+// Read Memory
+mcp_Teamate_read_memory({
+  id: "agent1"
+});
+
+// Delete Memory
+mcp_Teamate_delete_memory({
   id: "agent1"
 });
 ```
@@ -94,7 +123,7 @@ mcp_Teamate_CheckOut({
 ### Communication
 ```typescript
 // Send Message
-mcp_Teamate_SendMessage({
+mcp_Teamate_send_message({
   sender: "agent1",
   receiver: "agent2",
   content: "Hello!"
@@ -104,6 +133,21 @@ mcp_Teamate_SendMessage({
 mcp_Teamate_wait_message({
   receiver: "agent2",
   timeout: 30000
+});
+
+// Get all messages for a receiver
+mcp_Teamate_get_all_messages({
+  receiver: "agent2"
+});
+
+// Get a message by ID
+mcp_Teamate_get_message({
+  id: "message_id"
+});
+
+// Delete a message by ID
+mcp_Teamate_delete_message({
+  id: "message_id"
 });
 ```
 
@@ -118,23 +162,26 @@ mcp_Teamate_add_document({
   version: "1.0.0"
 });
 
+// Delete Document
+mcp_Teamate_delete_document({
+  slug: "doc1",
+  secretKey: "your_secret_key"
+});
+
+// Get All Documents
+mcp_Teamate_get_all_documents({});
+
 // Get Document
 mcp_Teamate_get_document({
   slug: "doc1"
 });
-```
 
-### Memory Management
-```typescript
-// Write Memory
-mcp_Teamate_write_memory({
-  id: "agent1",
-  memory: "Important information"
-});
-
-// Read Memory
-mcp_Teamate_read_memory({
-  id: "agent1"
+// Update Document
+mcp_Teamate_update_document({
+  slug: "doc1",
+  content: "Updated content",
+  secretKey: "your_secret_key",
+  version: "1.0.1"
 });
 ```
 
@@ -165,7 +212,9 @@ aokihu <aokihu@gmail.com>
 
 ## Version History
 
-- 3.3.1 - Current version
+- 4.1.0 - Current version
+  - Replaced SSE with httpstream for real-time communication
+- 3.3.1 - Previous version
   - Fixed document management system parameter order bug
   - Improved document content storage reliability
 - 3.3.0 - Previous version
